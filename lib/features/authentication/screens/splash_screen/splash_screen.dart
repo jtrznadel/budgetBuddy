@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -14,8 +15,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
   late AnimationController _splashController;
   bool isAnimationFinished = false;
-  bool animateSplashText = false;
-  bool animateTitle = false;
+  bool displaySplashText = false;
 
   @override
   void initState() {
@@ -26,11 +26,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         isAnimationFinished = true;
         setState(() {});
         Future.delayed(const Duration(seconds: 1), () {
-          animateSplashText = true;
-          setState(() {});
-        });
-        Future.delayed(const Duration(seconds: 1), () {
-          animateTitle = true;
+          displaySplashText = true;
           setState(() {});
         });
       }
@@ -41,14 +37,14 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: kPrimaryColor,
       body: Stack(
         children: [
           AnimatedContainer(
             duration: const Duration(seconds: 1),
             height: isAnimationFinished ? size.height / 1.8 : size.height,
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: kSecondaryColor,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(isAnimationFinished ? 40 : 0),
                     bottomRight: Radius.circular(isAnimationFinished ? 40 : 0))),
@@ -70,28 +66,24 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                     height: 30,
                   ),
                   Center(
-                    child: AnimatedOpacity(
-                        opacity: animateSplashText ? 1 : 0,
-                        duration: const Duration(seconds: 1),
-                        child: animateTitle
-                            ? AnimatedTextKit(
-                                isRepeatingAnimation: false,
-                                animatedTexts: [
-                                  TyperAnimatedText('.budgetBuddy',
-                                      textStyle: const TextStyle(
-                                          fontSize: 36, color: Colors.blue),
-                                      speed: const Duration(milliseconds: 200))
-                                ],
-                              )
-                            : Container()),
-                  ),
+                      child: AnimatedTextKit(
+                    isRepeatingAnimation: false,
+                    animatedTexts: [
+                      TyperAnimatedText('.budgetBuddy',
+                          textStyle: const TextStyle(fontSize: 36, color: kPrimaryColor),
+                          speed: const Duration(milliseconds: 200))
+                    ],
+                  )),
                 ],
               ),
             ),
           ),
           Visibility(
             visible: isAnimationFinished,
-            child: const BottomSplashWidget(),
+            child: AnimatedOpacity(
+                opacity: displaySplashText ? 1 : 0,
+                duration: const Duration(seconds: 2),
+                child: const BottomSplashWidget()),
           ),
         ],
       ),

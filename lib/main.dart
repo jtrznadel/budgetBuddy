@@ -1,4 +1,6 @@
+import 'package:budget_buddy/utilities/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'features/authentication/screens/splash_screen/splash_screen.dart';
 
@@ -11,9 +13,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: TAppTheme.defaultTheme,
+      // theme: ThemeData(fontFamily: GoogleFonts.roboto().fontFamily),
       title: 'budgetBuddy',
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
