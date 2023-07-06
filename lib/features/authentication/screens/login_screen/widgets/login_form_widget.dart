@@ -1,3 +1,4 @@
+import 'package:budget_buddy/common_widgets/navigation/navigation_profile_widget.dart';
 import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/features/authentication/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,9 @@ class _LoginFormState extends State<LoginForm> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => const NavigationProfile());
+                  },
                   child: const Text("Login"),
                 ),
               )
