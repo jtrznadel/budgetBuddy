@@ -1,7 +1,7 @@
 import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/features/core/screens/dashboard/dashboard_screen.dart';
 import 'package:budget_buddy/features/core/screens/expenses/expenses_screen.dart';
-import 'package:budget_buddy/features/core/screens/group_expenses/group_expenses_screen.dart';
+import 'package:budget_buddy/features/core/screens/goals/goals_screen.dart';
 import 'package:budget_buddy/features/core/screens/profile/profile_screen.dart';
 import 'package:budget_buddy/features/core/screens/statistics/statistics_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -15,12 +15,12 @@ class NavigationProfile extends StatefulWidget {
 
 final items = [
   const Icon(
-    Icons.people_alt_outlined,
+    Icons.flag_outlined,
     size: 32,
     color: kWhiteColor,
   ),
   const Icon(
-    Icons.monetization_on_outlined,
+    Icons.payment_outlined,
     size: 32,
     color: kWhiteColor,
   ),
@@ -30,7 +30,7 @@ final items = [
     color: kWhiteColor,
   ),
   const Icon(
-    Icons.stacked_line_chart_rounded,
+    Icons.trending_up_rounded,
     size: 32,
     color: kWhiteColor,
   ),
@@ -42,11 +42,19 @@ final items = [
 ];
 
 final screens = [
-  const GroupExpensesScreen(),
+  const GoalsScreen(),
   const ExpensesScreen(),
   const DashboardScreen(),
   const StatisticsScreen(),
   const ProfileScreen(),
+];
+
+const barTitles = [
+  'Your Goals',
+  'Your Expenses',
+  'Dashboard',
+  'Analytics',
+  'My Profile',
 ];
 
 class _NavigationProfile extends State<NavigationProfile> {
@@ -59,8 +67,8 @@ class _NavigationProfile extends State<NavigationProfile> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text('.budgetBuddy',
-              style: TextStyle(color: kPrimaryColor, fontSize: 24)),
+          title: Text(barTitles[index],
+              style: const TextStyle(color: kPrimaryColor, fontSize: 18)),
           centerTitle: true,
           backgroundColor: kSecondaryColor,
           elevation: 0,

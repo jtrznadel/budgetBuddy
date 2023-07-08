@@ -2,6 +2,7 @@ import 'package:budget_buddy/common_widgets/form/form_header_widget.dart';
 import 'package:budget_buddy/constants/sizes.dart';
 import 'package:budget_buddy/features/authentication/screens/login_screen/widgets/login_footer_widget.dart';
 import 'package:budget_buddy/features/authentication/screens/login_screen/widgets/login_form_widget.dart';
+import 'package:budget_buddy/features/authentication/screens/welcome_screen/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +14,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () => Get.back(),
+            onPressed: () => Get.to(() => const WelcomeScreen()),
             icon: const Icon(
               Icons.arrow_back_ios_rounded,
               color: Colors.black,
