@@ -35,14 +35,14 @@ class ExpenseWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(expense.title),
-                  Text(DateFormat.yMMMd().format(expense.date))
+                  Text(expense.name.toString()),
+                  Text(DateFormat.yMMMd().format(expense.date!))
                 ],
               ),
             ],
           ),
           Text(
-            "-${expense.amount} zł",
+            "-${expense.price} zł",
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           )
         ],

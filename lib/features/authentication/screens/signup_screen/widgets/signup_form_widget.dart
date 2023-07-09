@@ -1,5 +1,7 @@
 import 'package:budget_buddy/constants/sizes.dart';
 import 'package:budget_buddy/features/authentication/controllers/signup_controller.dart';
+import 'package:budget_buddy/features/authentication/screens/login_screen/login_screen.dart';
+import 'package:budget_buddy/models/authentication_models/user_registration_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,21 +27,6 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
-              controller: controller.username,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter username.';
-                } else {
-                  return null;
-                }
-              },
-              decoration: const InputDecoration(
-                label: Text("Username"),
-                prefixIcon: Icon(Icons.person_outline_outlined),
-              ),
-            ),
-            const SizedBox(height: kDefaultPadding - 20),
-            TextFormField(
               controller: controller.email,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -49,22 +36,37 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                 }
               },
               decoration: const InputDecoration(
-                label: Text("E-Mail"),
-                prefixIcon: Icon(Icons.email_outlined),
+                label: Text("Email"),
+                prefixIcon: Icon(Icons.person_outline_outlined),
               ),
             ),
             const SizedBox(height: kDefaultPadding - 20),
             TextFormField(
-              controller: controller.phoneNumber,
+              controller: controller.firstName,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter phone number.';
+                  return 'Please enter first name.';
                 } else {
                   return null;
                 }
               },
               decoration: const InputDecoration(
-                label: Text("Phone Number"),
+                label: Text("First Name"),
+                prefixIcon: Icon(Icons.email_outlined),
+              ),
+            ),
+            const SizedBox(height: kDefaultPadding - 20),
+            TextFormField(
+              controller: controller.lastName,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter last name.';
+                } else {
+                  return null;
+                }
+              },
+              decoration: const InputDecoration(
+                label: Text("Last Name"),
                 prefixIcon: Icon(Icons.phone),
               ),
             ),
@@ -129,7 +131,18 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    SignUpController.instance.registerUser(UserRegistrationModel(
+                      email: controller.email.text.trim(),
+                      firstName: controller.firstName.text.trim(),
+                      lastName: controller.lastName.text.trim(),
+                      password: controller.password.text.trim(),
+                      confirmPassword: controller.confirmPassword.text.trim(),
+                    ));
+                    Get.to(() => const LoginScreen());
+                  }
+                },
                 child: const Text("Sign Up"),
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:budget_buddy/common_widgets/navigation/navigation_profile_widget
 import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/features/authentication/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 import '../../../../../constants/sizes.dart';
@@ -16,6 +17,8 @@ class LoginForm extends StatefulWidget {
   @override
   State<LoginForm> createState() => _LoginFormState();
 }
+
+const storage = FlutterSecureStorage();
 
 class _LoginFormState extends State<LoginForm> {
   @override
@@ -93,6 +96,10 @@ class _LoginFormState extends State<LoginForm> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      LogInController.instance.loginUser(
+                          controller.email.text.trim(), controller.password.text.trim());
+                    }
                     Get.to(() => const NavigationProfile());
                   },
                   child: const Text("Login"),

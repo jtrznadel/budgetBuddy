@@ -1,50 +1,57 @@
 import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/constants/sizes.dart';
-import 'package:budget_buddy/features/core/models/expense_model.dart';
+import 'package:budget_buddy/features/core/controllers/expenses_controller.dart';
 import 'package:budget_buddy/features/core/screens/dashboard/widgets/expense_widget.dart';
 import 'package:budget_buddy/features/core/screens/dashboard/widgets/spent_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<ExpenseModel> expenses = [
-      ExpenseModel(
-          title: 'Netflix subscription',
-          amount: 60.00,
-          category: 'entertainment',
-          date: DateTime.now()),
-      ExpenseModel(
-          title: 'Grocery shopping',
-          amount: 45.30,
-          category: 'groceries',
-          date: DateTime.now()),
-      ExpenseModel(
-          title: 'Electricity fee',
-          amount: 231.64,
-          category: 'utilities',
-          date: DateTime.now()),
-      ExpenseModel(
-          title: 'Subway ticket',
-          amount: 16.0,
-          category: 'transportation',
-          date: DateTime.now()),
-      ExpenseModel(
-          title: 'Subway ticket',
-          amount: 16.0,
-          category: 'transportation',
-          date: DateTime.now()),
-      ExpenseModel(
-          title: 'Subway ticket',
-          amount: 16.0,
-          category: 'transportation',
-          date: DateTime.now()),
-    ];
+    var controller = Get.put(ExpensesController());
+    // final List<ExpenseModel> expenses = [
+    //   ExpenseModel(
+    //       title: 'Netflix subscription',
+    //       amount: 60.00,
+    //       category: 'entertainment',
+    //       date: DateTime.now()),
+    //   ExpenseModel(
+    //       title: 'Grocery shopping',
+    //       amount: 45.30,
+    //       category: 'groceries',
+    //       date: DateTime.now()),
+    //   ExpenseModel(
+    //       title: 'Electricity fee',
+    //       amount: 231.64,
+    //       category: 'utilities',
+    //       date: DateTime.now()),
+    //   ExpenseModel(
+    //       title: 'Subway ticket',
+    //       amount: 16.0,
+    //       category: 'transportation',
+    //       date: DateTime.now()),
+    //   ExpenseModel(
+    //       title: 'Subway ticket',
+    //       amount: 16.0,
+    //       category: 'transportation',
+    //       date: DateTime.now()),
+    //   ExpenseModel(
+    //       title: 'Subway ticket',
+    //       amount: 16.0,
+    //       category: 'transportation',
+    //       date: DateTime.now()),
+    // ];
     const double moneySpent = 2443.54;
     const double totalBalance = 5000.00;
     final size = MediaQuery.of(context).size;
+
+    Future<void> refreshExpenses() async {
+      await controller.getExpenses();
+    }
+
     return Container(
         color: kSecondaryColor,
         padding: const EdgeInsets.all(kDefaultPadding).copyWith(top: 0),
@@ -95,21 +102,26 @@ class DashboardScreen extends StatelessWidget {
                           tileMode: TileMode.mirror,
                         ).createShader(bounds);
                       },
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: expenses.length,
-                        itemBuilder: (context, int index) {
-                          final expense = expenses[index];
-                          return Column(
-                            children: [
-                              ExpenseWidget(expense: expense),
-                              SizedBox(
-                                height: size.height * 0.01,
-                              ),
-                            ],
-                          );
-                        },
+                      child: RefreshIndicator(
+                        onRefresh: refreshExpenses,
+                        child: Obx(
+                          () => ListView.builder(
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: controller.expenses.length,
+                            itemBuilder: (context, int index) {
+                              final expense = controller.expenses[index];
+                              return Column(
+                                children: [
+                                  ExpenseWidget(expense: expense),
+                                  SizedBox(
+                                    height: size.height * 0.01,
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ),
