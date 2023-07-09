@@ -1,7 +1,7 @@
 import 'package:budget_buddy/constants/sizes.dart';
 import 'package:budget_buddy/features/authentication/controllers/signup_controller.dart';
 import 'package:budget_buddy/features/authentication/screens/login_screen/login_screen.dart';
-import 'package:budget_buddy/models/authentication_models/user_registration_model.dart';
+import 'package:budget_buddy/models/authentication_models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -133,7 +133,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
               child: ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    SignUpController.instance.registerUser(UserRegistrationModel(
+                    SignUpController.instance.registerUser(UserModel(
                       email: controller.email.text.trim(),
                       firstName: controller.firstName.text.trim(),
                       lastName: controller.lastName.text.trim(),

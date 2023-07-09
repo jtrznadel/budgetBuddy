@@ -24,4 +24,15 @@ class AuthenticationRepository {
       return e.response!;
     }
   }
+
+  Future<Response> getUserData(int id) async {
+    try {
+      Response response = await _dio.post(
+        '$apiAdress/Users/Login',
+      );
+      return response;
+    } on DioException catch (e) {
+      return e.response!;
+    }
+  }
 }

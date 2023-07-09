@@ -21,7 +21,7 @@ final lineCharts = [
 ];
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
-  int index = 1;
+  int index = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

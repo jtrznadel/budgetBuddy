@@ -1,4 +1,4 @@
-import 'package:budget_buddy/models/authentication_models/user_registration_model.dart';
+import 'package:budget_buddy/models/authentication_models/user_model.dart';
 import 'package:budget_buddy/repositories/authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +15,7 @@ class SignUpController extends GetxController {
   final firstName = TextEditingController();
   final lastName = TextEditingController();
 
-  void registerUser(UserRegistrationModel user) {
+  void registerUser(UserModel user) {
     AuthenticationRepository().registerUser(user.toJson());
   }
 }

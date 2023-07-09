@@ -12,38 +12,6 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(ExpensesController());
-    // final List<ExpenseModel> expenses = [
-    //   ExpenseModel(
-    //       title: 'Netflix subscription',
-    //       amount: 60.00,
-    //       category: 'entertainment',
-    //       date: DateTime.now()),
-    //   ExpenseModel(
-    //       title: 'Grocery shopping',
-    //       amount: 45.30,
-    //       category: 'groceries',
-    //       date: DateTime.now()),
-    //   ExpenseModel(
-    //       title: 'Electricity fee',
-    //       amount: 231.64,
-    //       category: 'utilities',
-    //       date: DateTime.now()),
-    //   ExpenseModel(
-    //       title: 'Subway ticket',
-    //       amount: 16.0,
-    //       category: 'transportation',
-    //       date: DateTime.now()),
-    //   ExpenseModel(
-    //       title: 'Subway ticket',
-    //       amount: 16.0,
-    //       category: 'transportation',
-    //       date: DateTime.now()),
-    //   ExpenseModel(
-    //       title: 'Subway ticket',
-    //       amount: 16.0,
-    //       category: 'transportation',
-    //       date: DateTime.now()),
-    // ];
     const double moneySpent = 2443.54;
     const double totalBalance = 5000.00;
     final size = MediaQuery.of(context).size;

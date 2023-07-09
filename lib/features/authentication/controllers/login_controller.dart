@@ -2,6 +2,7 @@ import 'package:budget_buddy/repositories/authentication_repository/authenticati
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class LogInController extends GetxController {
   static LogInController get instance => Get.find();
@@ -14,6 +15,12 @@ class LogInController extends GetxController {
 
   void loginUser(String email, String password) async {
     var result = await AuthenticationRepository().loginUser(email, password);
-    await storage.write(key: 'token', value: result.toString());
+    //getUserData(result.toString());
+  }
+
+  void getUserData(String token) async {
+    await storage.write(key: 'token', value: token.toString());
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+    print(decodedToken);
   }
 }

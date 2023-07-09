@@ -1,14 +1,14 @@
-class UserRegistrationModel {
+class UserModel {
   String? email;
   String? password;
   String? confirmPassword;
   String? firstName;
   String? lastName;
 
-  UserRegistrationModel(
+  UserModel(
       {this.email, this.password, this.confirmPassword, this.firstName, this.lastName});
 
-  UserRegistrationModel.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
     password = json['password'];
     confirmPassword = json['confirmPassword'];
