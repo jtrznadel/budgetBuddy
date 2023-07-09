@@ -16,9 +16,18 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: TAppTheme.defaultTheme,
-      // theme: ThemeData(fontFamily: GoogleFonts.roboto().fontFamily),
       title: 'budgetBuddy',
       home: const SplashScreen(),
     );
   }
 }
+
+
+// await Firebase.initializeApp(
+//       options: const FirebaseOptions(
+//           apiKey: "AIzaSyD6b_Nj4SBty0ZP6MIv5cji1HJgGciHYy0",
+//           authDomain: "budgetbuddy-5ff9e.firebaseapp.com",
+//           projectId: "budgetbuddy-5ff9e",
+//           storageBucket: "budgetbuddy-5ff9e.appspot.com",
+//           messagingSenderId: "1069268818717",
+//           appId: "1:1069268818717:web:ce40f90877a3532ef9dff4"));

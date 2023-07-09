@@ -1,6 +1,7 @@
 import 'package:animated_button_bar/animated_button_bar.dart';
 import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/constants/sizes.dart';
+import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/monthly_barchart_widget.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/monthly_linechart_widget.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/weekly_linechart_widget.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/yearly_linechart_widget.dart';
@@ -68,7 +69,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   ),
                   AspectRatio(
                       aspectRatio: 16 / 9, // Choose an appropriate aspect ratio
-                      child: lineCharts[index])
+                      child: lineCharts[index]),
+                  const AspectRatio(
+                      aspectRatio: 16 / 9, // Choose an appropriate aspect ratio
+                      child: MonthlyCategoryBarChartWidget()),
                 ],
               ),
             ),
