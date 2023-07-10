@@ -15,19 +15,19 @@ class CategoryButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ExpensesController());
     return Container(
-        margin: const EdgeInsets.all(7).copyWith(right: 0),
+        margin: const EdgeInsets.all(3).copyWith(right: 0),
         height: 60,
         width: 60,
         child: RawMaterialButton(
           onPressed: () {
             controller.getSelectedExpenses(id);
           },
-          elevation: 2,
+          elevation: 4,
           fillColor: kTertiaryColor,
           shape: const CircleBorder(),
           child: const Icon(
-            Icons.pause,
-            size: 32,
+            Icons.heart_broken_outlined,
+            size: 26,
           ),
         ));
   }

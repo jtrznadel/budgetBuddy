@@ -14,13 +14,22 @@ class LogInController extends GetxController {
   final password = TextEditingController();
 
   void loginUser(String email, String password) async {
-    var result = await AuthenticationRepository().loginUser(email, password);
-    //getUserData(result.toString());
+    try {
+      var result = await AuthenticationRepository().loginUser(email, password);
+      Get.snackbar('Error', result.toString());
+      getUserData(result.toString());
+    } catch (e) {
+      Get.snackbar('Error', 'Something went wrong');
+    }
   }
 
   void getUserData(String token) async {
     await storage.write(key: 'token', value: token.toString());
     Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
     print(decodedToken);
+  }
+
+  void logout() async {
+    await storage.delete(key: 'token');
   }
 }
