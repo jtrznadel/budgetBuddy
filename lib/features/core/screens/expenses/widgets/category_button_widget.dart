@@ -5,30 +5,36 @@ import 'package:get/get.dart';
 
 class CategoryButtonWidget extends StatelessWidget {
   const CategoryButtonWidget({
-    super.key,
+    Key? key,
     required this.id,
-  });
+    required this.color,
+    required this.icon,
+  }) : super(key: key);
 
   final int id;
+  final String color;
+  final int icon;
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ExpensesController());
-    return Container(
-        margin: const EdgeInsets.all(3).copyWith(right: 0),
-        height: 60,
-        width: 60,
-        child: RawMaterialButton(
-          onPressed: () {
-            controller.getSelectedExpenses(id);
-          },
-          elevation: 4,
-          fillColor: kTertiaryColor,
-          shape: const CircleBorder(),
-          child: const Icon(
-            Icons.heart_broken_outlined,
-            size: 26,
-          ),
-        ));
+    final controller = Get.find<ExpensesController>();
+
+    return SizedBox(
+      width: 60,
+      child: RawMaterialButton(
+        onPressed: () {
+          controller.setSelectedCategory(id);
+          controller.getSelectedExpenses();
+        },
+        elevation: 4,
+        fillColor:
+            controller.selectedCategory.value != id ? kTertiaryColor : kPrimaryColor,
+        shape: const CircleBorder(),
+        child: Icon(
+          IconData(icon, fontFamily: 'MaterialIcons'),
+          size: 26,
+        ),
+      ),
+    );
   }
 }

@@ -13,19 +13,27 @@ String categoryModelToJson(List<CategoryModel> data) =>
 class CategoryModel {
   int? categoryId;
   String? name;
+  String? icon;
+  String? color;
 
   CategoryModel({
     this.categoryId,
     this.name,
+    this.icon,
+    this.color,
   });
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
         categoryId: json["categoryId"],
         name: json["name"],
+        icon: json["icon"],
+        color: json["color"],
       );
 
   Map<String, dynamic> toJson() => {
         "categoryId": categoryId,
         "name": name,
+        "icon": icon,
+        "color": color,
       };
 }
