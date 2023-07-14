@@ -16,10 +16,9 @@ class ExpenseModel {
   String? description;
   double? price;
   DateTime? date;
+  int? userId;
   int? categoryId;
   dynamic category;
-  int? userId;
-  dynamic user;
 
   ExpenseModel({
     this.expenseId,
@@ -27,10 +26,9 @@ class ExpenseModel {
     this.description,
     this.price,
     this.date,
+    this.userId,
     this.categoryId,
     this.category,
-    this.userId,
-    this.user,
   });
 
   factory ExpenseModel.fromJson(Map<String, dynamic> json) => ExpenseModel(
@@ -39,10 +37,9 @@ class ExpenseModel {
         description: json["description"],
         price: json["price"],
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
+        userId: json["userId"],
         categoryId: json["categoryId"],
         category: json["category"],
-        userId: json["userId"],
-        user: json["user"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -51,9 +48,8 @@ class ExpenseModel {
         "description": description,
         "price": price,
         "date": date?.toIso8601String(),
+        "userId": userId,
         "categoryId": categoryId,
         "category": category,
-        "userId": userId,
-        "user": user,
       };
 }

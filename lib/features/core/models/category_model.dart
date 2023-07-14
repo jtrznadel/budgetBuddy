@@ -7,20 +7,21 @@ import 'dart:convert';
 List<CategoryModel> categoryModelFromJson(String str) =>
     List<CategoryModel>.from(json.decode(str).map((x) => CategoryModel.fromJson(x)));
 
-String categoryModelToJson(List<CategoryModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String categoryModelToJson(CategoryModel data) => json.encode(data.toJson());
 
 class CategoryModel {
   int? categoryId;
   String? name;
   String? icon;
   String? color;
+  int? userId;
 
   CategoryModel({
     this.categoryId,
     this.name,
     this.icon,
     this.color,
+    this.userId,
   });
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
@@ -28,6 +29,7 @@ class CategoryModel {
         name: json["name"],
         icon: json["icon"],
         color: json["color"],
+        userId: json["userId"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -35,5 +37,6 @@ class CategoryModel {
         "name": name,
         "icon": icon,
         "color": color,
+        "userId": userId,
       };
 }
