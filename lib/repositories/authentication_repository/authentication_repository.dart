@@ -13,15 +13,15 @@ class AuthenticationRepository {
     }
   }
 
-  Future<Response> loginUser(String email, String password) async {
+  Future<String> loginUser(String email, String password) async {
     try {
       Response response = await _dio.post(
         '$apiAdress/Users/Login',
         data: {'email': email, 'password': password},
       );
-      return response;
-    } on DioException catch (e) {
-      return e.response!;
+      return response.toString();
+    } on DioException {
+      return "error";
     }
   }
 

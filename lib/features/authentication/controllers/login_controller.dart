@@ -1,3 +1,4 @@
+import 'package:budget_buddy/features/authentication/screens/login_screen/login_screen.dart';
 import 'package:budget_buddy/repositories/authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -13,23 +14,21 @@ class LogInController extends GetxController {
   final email = TextEditingController();
   final password = TextEditingController();
 
-  void loginUser(String email, String password) async {
-    try {
-      var result = await AuthenticationRepository().loginUser(email, password);
-      Get.snackbar('Error', result.toString());
-      getUserData(result.toString());
-    } catch (e) {
-      Get.snackbar('Error', 'Something went wrong');
+  Future<bool> loginUser(String email, String password) async {
+    var result = await AuthenticationRepository().loginUser(email, password);
+    if (result == "error") {
+      Get.snackbar("Error", "You provided wrong data");
+      return false;
+    } else {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(result);
+      String tokenValue = decodedToken.values.elementAt(0).toString();
+      await storage.write(key: 'token', value: tokenValue);
+      return true;
     }
-  }
-
-  void getUserData(String token) async {
-    await storage.write(key: 'token', value: token.toString());
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    print(decodedToken);
   }
 
   void logout() async {
     await storage.delete(key: 'token');
+    Get.offAll(() => const LoginScreen());
   }
 }

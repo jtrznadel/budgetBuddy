@@ -1,6 +1,6 @@
 import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/constants/sizes.dart';
-import 'package:budget_buddy/features/authentication/screens/welcome_screen/welcome_screen.dart';
+import 'package:budget_buddy/features/authentication/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +10,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    var loginController = Get.put(LogInController());
     return Scaffold(
       backgroundColor: kSecondaryColor,
       body: Padding(
@@ -123,7 +124,9 @@ class ProfileScreen extends StatelessWidget {
                   thickness: 1.0,
                 ),
                 TextButton.icon(
-                  onPressed: () => (() => Get.to(const WelcomeScreen())),
+                  onPressed: () {
+                    loginController.logout();
+                  },
                   icon: const Icon(
                     Icons.logout_rounded,
                     size: 24,

@@ -95,11 +95,13 @@ class _LoginFormState extends State<LoginForm> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (formKey.currentState!.validate()) {
-                      LogInController.instance.loginUser(
+                      var result = await LogInController.instance.loginUser(
                           controller.email.text.trim(), controller.password.text.trim());
-                      Get.to(() => const NavigationProfile());
+                      if (result == true) {
+                        Get.to(() => const NavigationProfile());
+                      }
                     }
                   },
                   child: const Text("Login"),
