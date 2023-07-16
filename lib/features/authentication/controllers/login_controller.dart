@@ -1,4 +1,6 @@
 import 'package:budget_buddy/features/authentication/screens/login_screen/login_screen.dart';
+import 'package:budget_buddy/features/core/controllers/categories_controller.dart';
+import 'package:budget_buddy/features/core/controllers/expenses_controller.dart';
 import 'package:budget_buddy/repositories/authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -29,6 +31,8 @@ class LogInController extends GetxController {
 
   void logout() async {
     await storage.delete(key: 'token');
+    Get.find<CategoriesController>().dispose();
+    Get.find<ExpensesController>().dispose();
     Get.offAll(() => const LoginScreen());
   }
 }

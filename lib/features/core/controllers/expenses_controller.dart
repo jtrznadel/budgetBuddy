@@ -15,8 +15,8 @@ class ExpensesController extends GetxController {
   @override
   void onReady() {
     getExpenses();
-    super.onReady();
     getSelectedExpenses();
+    super.onReady();
   }
 
   var expenses = RxList<ExpenseModel>();
