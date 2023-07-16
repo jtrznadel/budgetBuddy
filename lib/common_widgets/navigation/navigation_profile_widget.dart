@@ -44,7 +44,7 @@ final items = [
 final screens = [
   const GoalsScreen(),
   const ExpensesScreen(),
-  const DashboardScreen(),
+  DashboardScreen(),
   const StatisticsScreen(),
   const ProfileScreen(),
 ];
@@ -62,28 +62,25 @@ class _NavigationProfile extends State<NavigationProfile> {
   int index = 2;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text(barTitles[index],
-              style: const TextStyle(color: kPrimaryColor, fontSize: 18)),
-          centerTitle: true,
-          backgroundColor: kSecondaryColor,
-          elevation: 0,
-        ),
-        body: screens[index],
-        bottomNavigationBar: CurvedNavigationBar(
-          key: navigationKey,
-          animationCurve: Curves.easeInOutCubic,
-          index: index,
-          backgroundColor: kSecondaryColor,
-          color: kPrimaryColor,
-          height: 60,
-          items: items,
-          onTap: (index) => setState(() => this.index = index),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(barTitles[index],
+            style: const TextStyle(color: kPrimaryColor, fontSize: 18)),
+        centerTitle: true,
+        backgroundColor: kSecondaryColor,
+        elevation: 0,
+      ),
+      body: screens[index],
+      bottomNavigationBar: CurvedNavigationBar(
+        key: navigationKey,
+        animationCurve: Curves.easeInOutCubic,
+        index: index,
+        backgroundColor: kSecondaryColor,
+        color: kPrimaryColor,
+        height: 60,
+        items: items,
+        onTap: (index) => setState(() => this.index = index),
       ),
     );
   }

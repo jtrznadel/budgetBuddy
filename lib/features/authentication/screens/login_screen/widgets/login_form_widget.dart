@@ -43,7 +43,7 @@ class _LoginFormState extends State<LoginForm> {
                 },
                 decoration: const InputDecoration(
                   prefixIcon: Icon(
-                    Icons.person_outline_outlined,
+                    Icons.email_outlined,
                   ),
                   labelText: "E-Mail",
                 ),
@@ -69,7 +69,8 @@ class _LoginFormState extends State<LoginForm> {
                   suffixIcon: GestureDetector(
                     onTap: () {
                       setState(() {
-                        controller.isPasswordObscured = !controller.isPasswordObscured;
+                        controller.isPasswordObscured =
+                            !controller.isPasswordObscured;
                       });
                     },
                     child: Icon(controller.isPasswordObscured
@@ -79,26 +80,27 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
               const SizedBox(
-                height: kDefaultPadding - 20,
+                height: kDefaultPadding,
               ),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            builder: (_) => const LoginScreen());
-                      },
-                      style: TextButton.styleFrom(foregroundColor: kPrimaryColor),
-                      child: const Text("Forgot Password?"))),
+              // Align(
+              //     alignment: Alignment.centerRight,
+              //     child: TextButton(
+              //         onPressed: () {
+              //           showModalBottomSheet(
+              //               isScrollControlled: true,
+              //               context: context,
+              //               builder: (_) => const LoginScreen());
+              //         },
+              //         style: TextButton.styleFrom(foregroundColor: kPrimaryColor),
+              //         child: const Text("Forgot Password?"))),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
                       var result = await LogInController.instance.loginUser(
-                          controller.email.text.trim(), controller.password.text.trim());
+                          controller.email.text.trim(),
+                          controller.password.text.trim());
                       if (result == true) {
                         Get.to(() => const NavigationProfile());
                       }

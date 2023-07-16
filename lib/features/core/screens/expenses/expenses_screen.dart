@@ -5,6 +5,7 @@ import 'package:budget_buddy/features/core/controllers/expenses_controller.dart'
 import 'package:budget_buddy/features/core/models/expense_model.dart';
 import 'package:budget_buddy/features/core/screens/dashboard/widgets/expense_widget.dart';
 import 'package:budget_buddy/features/core/screens/expenses/widgets/category_button_widget.dart';
+import 'package:budget_buddy/features/core/screens/expenses/widgets/expense_button_and_form_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -24,88 +25,10 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     var categoriesController = Get.put(CategoriesController());
     var expensesController = Get.put(ExpensesController());
     final size = MediaQuery.of(context).size;
-    void _showAddExpenseModal(BuildContext context) {
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (BuildContext context) {
-          return Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.5,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text(
-                    'Add New Expense',
-                    style: TextStyle(
-                      color: kPrimaryColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  const TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Expense Name',
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  const TextField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Expense Amount',
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Select Category:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: categoriesController.categories.map((category) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: Column(
-                            children: [
-                              CategoryButtonWidget(
-                                id: category.categoryId!,
-                                icon: int.parse(category.icon!),
-                                color: category.color!,
-                              ),
-                              Text(category.name.toString())
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Obsługa dodawania wydatku
-                    },
-                    child: const Text('Add Expense'),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      );
-    }
 
     return Container(
-      padding: const EdgeInsets.all(15).copyWith(top: 10, bottom: kDefaultPadding),
+      padding:
+          const EdgeInsets.all(15).copyWith(top: 10, bottom: kDefaultPadding),
       color: kSecondaryColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -253,8 +176,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                               ),
                               const Text(
                                 'You didn\'t incur any expenses on that day',
-                                style:
-                                    TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
@@ -264,11 +187,16 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                         physics: const BouncingScrollPhysics(),
                         itemCount: expensesController.selectedExpenses.length,
                         itemBuilder: (context, int index) {
-                          final ExpenseModel expense =
+                          ExpenseModel expense =
                               expensesController.selectedExpenses[index];
+                          var category = categoriesController.categories
+                              .where((c) => c.categoryId == expense.categoryId)
+                              .first;
                           return Column(
                             children: [
-                              ExpenseWidget(expense: expense),
+                              ExpenseWidget(
+                                  expense: expense,
+                                  icon: int.parse(category.icon!)),
                               SizedBox(
                                 height: size.height * 0.01,
                               ),
@@ -279,17 +207,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: FloatingActionButton.extended(
-              backgroundColor: kPrimaryColor,
-              onPressed: () {
-                _showAddExpenseModal(context);
-              },
-              label: const Text('Add New Expense'),
-              icon: const Icon(Icons.add),
-            ),
-          )
+          const ExpenseAddButtonAndFormWidget()
         ],
       ),
     );

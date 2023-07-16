@@ -1,5 +1,6 @@
 import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/constants/sizes.dart';
+import 'package:budget_buddy/features/core/controllers/categories_controller.dart';
 import 'package:budget_buddy/features/core/controllers/expenses_controller.dart';
 import 'package:budget_buddy/features/core/screens/dashboard/widgets/expense_widget.dart';
 import 'package:budget_buddy/features/core/screens/dashboard/widgets/spent_widget.dart';
@@ -7,11 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
+  final CategoriesController categoriesController =
+      Get.put(CategoriesController());
+
+  DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(ExpensesController());
+    categoriesController.getCategories();
     const double moneySpent = 2443.54;
     const double totalBalance = 5000.00;
     final size = MediaQuery.of(context).size;
@@ -30,16 +35,20 @@ class DashboardScreen extends StatelessWidget {
             RichText(
                 text: const TextSpan(children: <TextSpan>[
               TextSpan(
-                  text: 'Hello, \n', style: TextStyle(fontSize: 18, color: Colors.black)),
+                  text: 'Hello, \n',
+                  style: TextStyle(fontSize: 18, color: Colors.black)),
               TextSpan(
                   text: 'Andrew',
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 24, color: kPrimaryColor))
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                      color: kPrimaryColor))
             ])),
             SizedBox(
               height: size.height * 0.01,
             ),
-            const SpentWidget(moneySpent: moneySpent, totalBalance: totalBalance),
+            const SpentWidget(
+                moneySpent: moneySpent, totalBalance: totalBalance),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,10 +87,16 @@ class DashboardScreen extends StatelessWidget {
                             physics: const BouncingScrollPhysics(),
                             itemCount: controller.expenses.length,
                             itemBuilder: (context, int index) {
-                              final expense = controller.expenses[index];
+                              var expense = controller.expenses[index];
+                              var category = categoriesController.categories
+                                  .where(
+                                      (c) => c.categoryId == expense.categoryId)
+                                  .first;
                               return Column(
                                 children: [
-                                  ExpenseWidget(expense: expense),
+                                  ExpenseWidget(
+                                      expense: expense,
+                                      icon: int.parse(category.icon!)),
                                   SizedBox(
                                     height: size.height * 0.01,
                                   ),

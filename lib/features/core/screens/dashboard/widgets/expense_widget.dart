@@ -1,12 +1,15 @@
 import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/constants/sizes.dart';
+import 'package:budget_buddy/features/core/controllers/categories_controller.dart';
 import 'package:budget_buddy/features/core/models/expense_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class ExpenseWidget extends StatelessWidget {
   final ExpenseModel expense;
-  const ExpenseWidget({super.key, required this.expense});
+  final int icon;
+  const ExpenseWidget({super.key, required this.expense, required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,9 @@ class ExpenseWidget extends StatelessWidget {
                 ),
                 width: 60,
                 height: 60,
-                child: const Icon(Icons.monetization_on_outlined),
+                child: Icon(
+                  IconData(icon, fontFamily: 'MaterialIcons'),
+                ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
