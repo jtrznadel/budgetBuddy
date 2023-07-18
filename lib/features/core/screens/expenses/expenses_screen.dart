@@ -112,31 +112,29 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                       expensesController.selectedDate.value = '';
                       expensesController.getSelectedExpenses();
                     },
-                    child: UnconstrainedBox(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(
-                          color: kTertiaryColor,
-                          borderRadius: BorderRadius.all(Radius.circular(25)),
-                        ),
-                        child: Row(
-                          children: [
-                            Text(expensesController.selectedDate.value),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                expensesController.selectedDate.value = '';
-                                expensesController.getSelectedExpenses();
-                              },
-                              icon: const Icon(Icons.cancel),
-                              padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(),
-                            )
-                          ],
-                        ),
+                    child: Container(
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        color: kTertiaryColor,
+                        borderRadius: BorderRadius.all(Radius.circular(25)),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(expensesController.selectedDate.value),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              expensesController.selectedDate.value = '';
+                              expensesController.getSelectedExpenses();
+                            },
+                            icon: const Icon(Icons.cancel),
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                          )
+                        ],
                       ),
                     ),
                   )

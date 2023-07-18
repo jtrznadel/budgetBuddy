@@ -1,1 +1,1 @@
-var apiAdress = 'https://budgetbuddy1.azurewebsites.net/api/';
+var apiAdress = 'https://budgetbuddy2.azurewebsites.net/api/';

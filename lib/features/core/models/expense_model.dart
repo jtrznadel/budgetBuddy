@@ -35,7 +35,7 @@ class ExpenseModel {
         expenseId: json["expenseId"],
         name: json["name"],
         description: json["description"],
-        price: json["price"],
+        price: json["price"]?.toDouble(),
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
         userId: json["userId"],
         categoryId: json["categoryId"],

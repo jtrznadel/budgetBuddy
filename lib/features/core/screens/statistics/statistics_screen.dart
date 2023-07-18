@@ -1,11 +1,13 @@
 import 'package:animated_button_bar/animated_button_bar.dart';
 import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/constants/sizes.dart';
+import 'package:budget_buddy/features/core/controllers/stats_controller.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/monthly_barchart_widget.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/monthly_linechart_widget.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/weekly_linechart_widget.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/yearly_linechart_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
@@ -14,14 +16,10 @@ class StatisticsScreen extends StatefulWidget {
   State<StatisticsScreen> createState() => _StatisticsScreenState();
 }
 
-final lineCharts = [
-  const WeeklyExpensesLineChartWidget(),
-  const MonthlyExpensesLineChartWidget(),
-  const YearlyExpensesLineChartWidget(),
-];
-
 class _StatisticsScreenState extends State<StatisticsScreen> {
   int index = 0;
+  final statsController = Get.put(StatsController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,8 +66,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     ],
                   ),
                   AspectRatio(
-                      aspectRatio: 16 / 9, // Choose an appropriate aspect ratio
-                      child: lineCharts[index]),
+                    aspectRatio: 16 / 9, // Choose an appropriate aspect ratio
+                    child: (index == 0)
+                        ? WeeklyExpensesLineChartWidget(
+                            dailyData: statsController.stats.value.daily)
+                        : (index == 1)
+                            ? const MonthlyExpensesLineChartWidget()
+                            : const YearlyExpensesLineChartWidget(),
+                  ),
                   const AspectRatio(
                       aspectRatio: 16 / 9, // Choose an appropriate aspect ratio
                       child: MonthlyCategoryBarChartWidget()),
