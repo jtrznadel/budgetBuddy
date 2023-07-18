@@ -71,4 +71,17 @@ class ExpensesController extends GetxController {
     }
     update();
   }
+
+  addExpense(ExpenseModel expense) async {
+    var userId = await getUserId();
+    expense.userId = int.parse(userId);
+    try {
+      var addedExpense = await ExpensesRepository().addExpense(expense);
+      // Dodaj nową kategorię do listy użytkownika
+      //userCategories.add(addedCategory);
+    } catch (error) {
+      // Obsłuż błąd
+      printError(info: 'Error adding exponse: $error');
+    }
+  }
 }

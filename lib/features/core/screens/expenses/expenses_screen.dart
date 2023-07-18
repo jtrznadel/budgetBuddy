@@ -5,7 +5,7 @@ import 'package:budget_buddy/features/core/controllers/expenses_controller.dart'
 import 'package:budget_buddy/features/core/models/expense_model.dart';
 import 'package:budget_buddy/features/core/screens/dashboard/widgets/expense_widget.dart';
 import 'package:budget_buddy/features/core/screens/expenses/widgets/category_button_widget.dart';
-import 'package:budget_buddy/features/core/screens/expenses/widgets/expense_button_and_form_widget.dart';
+import 'package:budget_buddy/features/core/screens/expenses/widgets/add_expense_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -27,8 +27,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     final size = MediaQuery.of(context).size;
 
     return Container(
-      padding:
-          const EdgeInsets.all(15).copyWith(top: 10, bottom: kDefaultPadding),
+      padding: const EdgeInsets.all(15).copyWith(top: 10, bottom: kDefaultPadding),
       color: kSecondaryColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -176,8 +175,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                               ),
                               const Text(
                                 'You didn\'t incur any expenses on that day',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
+                                style:
+                                    TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
@@ -195,8 +194,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                           return Column(
                             children: [
                               ExpenseWidget(
-                                  expense: expense,
-                                  icon: int.parse(category.icon!)),
+                                  expense: expense, icon: int.parse(category.icon!)),
                               SizedBox(
                                 height: size.height * 0.01,
                               ),
@@ -207,7 +205,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               ),
             ),
           ),
-          const ExpenseAddButtonAndFormWidget()
+          const ExpenseModalWidget()
         ],
       ),
     );
