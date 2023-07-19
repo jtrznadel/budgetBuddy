@@ -21,8 +21,10 @@ class _AddCategoryModalState extends State<AddCategoryModal> {
 
     List<int> icons = [0xe390, 0xe483, 0xf0871, 0xe5e5, 0xf3e1];
     return Container(
-      padding: const EdgeInsets.all(kDefaultPadding),
+      padding: const EdgeInsets.all(kDefaultPadding)
+          .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + kDefaultPadding),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Text(

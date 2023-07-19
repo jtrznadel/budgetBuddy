@@ -16,6 +16,7 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    userController.getUser();
     categoriesController.getCategories();
     expensesController.getExpenses();
     const double moneySpent = 2443.54;
@@ -80,7 +81,7 @@ class DashboardScreen extends StatelessWidget {
                         onRefresh: refreshExpenses,
                         child: Obx(() {
                           final lastTenExpenses =
-                              expensesController.expenses.reversed.take(10).toList();
+                              expensesController.expenses.take(10).toList();
 
                           return ListView.builder(
                             shrinkWrap: true,

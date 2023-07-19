@@ -27,6 +27,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     final size = MediaQuery.of(context).size;
 
     return Container(
+      height: MediaQuery.of(context).size.height,
       padding: const EdgeInsets.all(15).copyWith(top: 10, bottom: kDefaultPadding),
       color: kSecondaryColor,
       child: Column(

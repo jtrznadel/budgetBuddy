@@ -72,7 +72,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             dailyData: statsController.stats.value.daily)
                         : (index == 1)
                             ? MonthlyExpensesLineChartWidget(
-                                monthlyData: statsController.stats.value.monthly)
+                                monthlyData:
+                                    statsController.stats.value.dailyCurrentMonth)
                             : YearlyExpensesLineChartWidget(
                                 monthlyData: statsController.stats.value.monthly,
                               ),

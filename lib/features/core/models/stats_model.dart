@@ -11,14 +11,20 @@ String statsModelToJson(StatsModel data) => json.encode(data.toJson());
 class StatsModel {
   List<Yearly>? yearly;
   List<Monthly>? monthly;
-  double? currentMonth;
   List<Daily>? daily;
+  double? last31DaysTotalExpenses;
+  List<Daily>? dailyLast31Days;
+  double? currentMonth;
+  List<Daily>? dailyCurrentMonth;
 
   StatsModel({
     this.yearly,
     this.monthly,
-    this.currentMonth,
     this.daily,
+    this.last31DaysTotalExpenses,
+    this.dailyLast31Days,
+    this.currentMonth,
+    this.dailyCurrentMonth,
   });
 
   factory StatsModel.fromJson(Map<String, dynamic> json) => StatsModel(
@@ -28,10 +34,17 @@ class StatsModel {
         monthly: json["monthly"] == null
             ? []
             : List<Monthly>.from(json["monthly"]!.map((x) => Monthly.fromJson(x))),
-        currentMonth: json["currentMonth"]?.toDouble(),
         daily: json["daily"] == null
             ? []
             : List<Daily>.from(json["daily"]!.map((x) => Daily.fromJson(x))),
+        last31DaysTotalExpenses: json["last31DaysTotalExpenses"]?.toDouble(),
+        dailyLast31Days: json["dailyLast31Days"] == null
+            ? []
+            : List<Daily>.from(json["dailyLast31Days"]!.map((x) => Daily.fromJson(x))),
+        currentMonth: json["currentMonth"]?.toDouble(),
+        dailyCurrentMonth: json["dailyCurrentMonth"] == null
+            ? []
+            : List<Daily>.from(json["dailyCurrentMonth"]!.map((x) => Daily.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -39,8 +52,15 @@ class StatsModel {
             yearly == null ? [] : List<dynamic>.from(yearly!.map((x) => x.toJson())),
         "monthly":
             monthly == null ? [] : List<dynamic>.from(monthly!.map((x) => x.toJson())),
-        "currentMonth": currentMonth,
         "daily": daily == null ? [] : List<dynamic>.from(daily!.map((x) => x.toJson())),
+        "last31DaysTotalExpenses": last31DaysTotalExpenses,
+        "dailyLast31Days": dailyLast31Days == null
+            ? []
+            : List<dynamic>.from(dailyLast31Days!.map((x) => x.toJson())),
+        "currentMonth": currentMonth,
+        "dailyCurrentMonth": dailyCurrentMonth == null
+            ? []
+            : List<dynamic>.from(dailyCurrentMonth!.map((x) => x.toJson())),
       };
 }
 

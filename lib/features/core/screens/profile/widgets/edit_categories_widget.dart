@@ -95,6 +95,7 @@ class EditCategoriesModal extends StatelessWidget {
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
+                  isScrollControlled: true,
                   builder: (BuildContext context) {
                     return const AddCategoryModal();
                   },

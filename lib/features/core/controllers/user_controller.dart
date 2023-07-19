@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class UserController extends GetxController {
   @override
   void onInit() {
-    getStats();
+    getUser();
     super.onInit();
   }
 
@@ -18,7 +18,7 @@ class UserController extends GetxController {
     return userId;
   }
 
-  getStats() async {
+  getUser() async {
     var userId = await getUserId();
     var response = await UserRepository().getUser(userId);
     user = response;

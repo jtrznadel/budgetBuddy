@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../../../../../../constants/color_palette.dart';
 
 class MonthlyExpensesLineChartWidget extends StatelessWidget {
-  final List<Monthly>? monthlyData; // Nowy parametr przyjmujący dane z daily
+  final List<Daily>? monthlyData; // Nowy parametr przyjmujący dane z daily
 
   const MonthlyExpensesLineChartWidget({
     this.monthlyData,
@@ -63,7 +63,7 @@ class MonthlyExpensesLineChartWidget extends StatelessWidget {
   }
 }
 
-double getMaxTotalExpenses(List<Monthly> monthlyData) {
+double getMaxTotalExpenses(List<Daily> monthlyData) {
   double maxExpenses = 0.0;
 
   for (var dailyEntry in monthlyData) {
