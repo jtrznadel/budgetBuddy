@@ -1,67 +1,82 @@
+import 'package:budget_buddy/features/core/models/stats_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../../constants/color_palette.dart';
 
 class MonthlyExpensesLineChartWidget extends StatelessWidget {
+  final List<Monthly>? monthlyData; // Nowy parametr przyjmujący dane z daily
+
   const MonthlyExpensesLineChartWidget({
-    super.key,
-  });
+    this.monthlyData,
+    Key? key,
+  }) : super(key: key);
+
+  // Reszta widgetu pozostaje bez zmian
 
   @override
   Widget build(BuildContext context) {
+    printError(info: '${monthlyData?.length}');
+    if (monthlyData == null || monthlyData!.isEmpty) {
+      // Obsługuje przypadki braku danych lub pustej listy
+      return const Center(
+        child: Text('Brak danych dla wykresu.'),
+      );
+    }
+
+    // Tworzy listę FlSpot z rzeczywistymi danymi dailyData
+    final spots = monthlyData!.asMap().entries.map((entry) {
+      final dayIndex = entry.key + 1;
+      final totalExpenses = entry.value.totalExpenses ?? 0.0;
+      return FlSpot(dayIndex.toDouble(), totalExpenses);
+    }).toList();
+
     return LineChart(
       LineChartData(
-          minX: 1,
-          minY: 1,
-          maxX: 31,
-          maxY: 2000,
-          gridData: const FlGridData(show: false),
-          lineBarsData: [
-            LineChartBarData(
-                spots: [
-                  const FlSpot(1, 89),
-                  const FlSpot(2, 1000),
-                  const FlSpot(3, 205),
-                  const FlSpot(4, 78),
-                  const FlSpot(5, 115),
-                  const FlSpot(6, 292),
-                  const FlSpot(7, 79),
-                  const FlSpot(8, 271),
-                  const FlSpot(9, 208),
-                  const FlSpot(10, 297),
-                  const FlSpot(11, 64),
-                  const FlSpot(12, 116),
-                  const FlSpot(13, 183),
-                  const FlSpot(14, 219),
-                  const FlSpot(15, 900),
-                  const FlSpot(16, 805),
-                  const FlSpot(17, 764),
-                  const FlSpot(18, 654),
-                  const FlSpot(19, 407),
-                  const FlSpot(20, 249),
-                  const FlSpot(21, 76),
-                  const FlSpot(22, 218),
-                  const FlSpot(23, 163),
-                  const FlSpot(24, 129),
-                  const FlSpot(25, 1200),
-                  const FlSpot(26, 104),
-                  const FlSpot(27, 98),
-                  const FlSpot(28, 161),
-                  const FlSpot(29, 88),
-                  const FlSpot(30, 265),
-                  const FlSpot(31, 99)
-                  // Add additional FlSpot entries as needed
-                ],
-                isCurved: true,
-                color: kPrimaryColor,
-                dotData: const FlDotData(show: false),
-                barWidth: 5,
-                belowBarData:
-                    BarAreaData(show: true, color: kPrimaryColor.withOpacity(0.5))),
-          ],
-          borderData: FlBorderData(
-              show: true, border: Border.all(color: kPrimaryColor, width: 1))),
+        minX: 1,
+        minY: 0,
+        maxX: 31, // Zakładamy 31 dni w miesiącu
+        maxY: getMaxTotalExpenses(
+            monthlyData!), // Funkcja pomocnicza do znalezienia maksymalnej wartości wydatków
+        gridData: const FlGridData(show: false),
+        lineBarsData: [
+          LineChartBarData(
+            spots: spots,
+            isCurved: false,
+            color: kPrimaryColor,
+            dotData: const FlDotData(show: false),
+            barWidth: 3,
+            belowBarData: BarAreaData(
+              show: true,
+              color: kPrimaryColor.withOpacity(0.5),
+            ),
+          ),
+        ],
+        borderData: FlBorderData(
+          show: true,
+          border: Border.all(color: kPrimaryColor, width: 1),
+        ),
+        //titlesData: FlTitlesData(bottomTitles: AxisTitles(axisNameWidget: ))
+      ),
     );
   }
+}
+
+double getMaxTotalExpenses(List<Monthly> monthlyData) {
+  double maxExpenses = 0.0;
+
+  for (var dailyEntry in monthlyData) {
+    if (dailyEntry.totalExpenses != null && dailyEntry.totalExpenses! > maxExpenses) {
+      maxExpenses = dailyEntry.totalExpenses!;
+    }
+  }
+
+  // Dodatkowo, możemy dodać margines do maksymalnej wartości,
+  // aby wykres nie był dokładnie na granicy górnej.
+  maxExpenses += maxExpenses * 0.1; // 10% margines
+
+  // Jeśli maxExpenses jest mniejsze lub równe 0, zwracamy 1.
+  // W ten sposób unikniemy sytuacji, gdy wykres wychodzi poniżej 0.
+  return maxExpenses <= 0 ? 1 : maxExpenses;
 }

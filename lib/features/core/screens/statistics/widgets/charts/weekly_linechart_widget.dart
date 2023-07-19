@@ -32,31 +32,53 @@ class WeeklyExpensesLineChartWidget extends StatelessWidget {
       return FlSpot(dayIndex.toDouble(), totalExpenses);
     }).toList();
 
-    return LineChart(
-      LineChartData(
-        minX: 1,
-        minY: 0,
-        maxX: dailyData!.length.toDouble(),
-        maxY: getMaxTotalExpenses(
-            dailyData!), // Funkcja pomocnicza do znalezienia maksymalnej wartości wydatków
-        gridData: const FlGridData(show: false),
-        lineBarsData: [
-          LineChartBarData(
-            spots: spots,
-            isCurved: false,
-            color: kPrimaryColor,
-            dotData: const FlDotData(show: false),
-            barWidth: 5,
-            belowBarData: BarAreaData(
+    return Container(
+      padding: const EdgeInsets.only(right: 20),
+      child: LineChart(
+        LineChartData(
+            minX: 1,
+            minY: 0,
+            maxX: dailyData!.length.toDouble(),
+            maxY: getMaxTotalExpenses(
+                dailyData!), // Funkcja pomocnicza do znalezienia maksymalnej wartości wydatków
+            gridData: const FlGridData(show: false),
+            lineBarsData: [
+              LineChartBarData(
+                spots: spots,
+                isCurved: false,
+                color: kPrimaryColor,
+                dotData: const FlDotData(show: false),
+                barWidth: 5,
+                belowBarData: BarAreaData(
+                  show: true,
+                  color: kPrimaryColor.withOpacity(0.5),
+                ),
+              ),
+            ],
+            borderData: FlBorderData(
               show: true,
-              color: kPrimaryColor.withOpacity(0.5),
+              border: const Border(
+                left: BorderSide(color: Color(0xff37434d), width: 2),
+                bottom: BorderSide(color: Color(0xff37434d), width: 2),
+                top: BorderSide(color: Colors.transparent),
+                right: BorderSide(color: Colors.transparent),
+              ),
             ),
-          ),
-        ],
-        borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: kPrimaryColor, width: 1),
-        ),
+            titlesData: FlTitlesData(
+                bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                        showTitles: true,
+                        interval: 1,
+                        getTitlesWidget: (value, meta) => (value >= 0 &&
+                                value < dailyData!.length)
+                            ? Text(
+                                dailyData![value.toInt() - 1].dayOfWeek!.substring(0, 3))
+                            : Text(dailyData![value.toInt() - 1]
+                                .dayOfWeek!
+                                .substring(0, 3)))),
+                topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                rightTitles:
+                    const AxisTitles(sideTitles: SideTitles(showTitles: false)))),
       ),
     );
   }

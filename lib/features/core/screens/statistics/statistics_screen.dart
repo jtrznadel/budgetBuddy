@@ -45,7 +45,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       ButtonBarEntry(
                         onTap: () => setState(() => index = 0),
                         child: const Text(
-                          "Weekly",
+                          "Last 7 days",
                           style: TextStyle(color: kWhiteColor, fontSize: 16),
                         ),
                       ),
@@ -66,13 +66,19 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     ],
                   ),
                   AspectRatio(
-                    aspectRatio: 16 / 9, // Choose an appropriate aspect ratio
+                    aspectRatio: 1.5, // Choose an appropriate aspect ratio
                     child: (index == 0)
                         ? WeeklyExpensesLineChartWidget(
                             dailyData: statsController.stats.value.daily)
                         : (index == 1)
-                            ? const MonthlyExpensesLineChartWidget()
-                            : const YearlyExpensesLineChartWidget(),
+                            ? MonthlyExpensesLineChartWidget(
+                                monthlyData: statsController.stats.value.monthly)
+                            : YearlyExpensesLineChartWidget(
+                                monthlyData: statsController.stats.value.monthly,
+                              ),
+                  ),
+                  const SizedBox(
+                    height: 30,
                   ),
                   const AspectRatio(
                       aspectRatio: 16 / 9, // Choose an appropriate aspect ratio

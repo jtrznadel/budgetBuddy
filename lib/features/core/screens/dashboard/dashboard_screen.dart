@@ -2,6 +2,7 @@ import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/constants/sizes.dart';
 import 'package:budget_buddy/features/core/controllers/categories_controller.dart';
 import 'package:budget_buddy/features/core/controllers/expenses_controller.dart';
+import 'package:budget_buddy/features/core/controllers/user_controller.dart';
 import 'package:budget_buddy/features/core/screens/dashboard/widgets/expense_widget.dart';
 import 'package:budget_buddy/features/core/screens/dashboard/widgets/spent_widget.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:get/get.dart';
 class DashboardScreen extends StatelessWidget {
   final CategoriesController categoriesController = Get.put(CategoriesController());
   final ExpensesController expensesController = Get.put(ExpensesController());
+  final UserController userController = Get.put(UserController());
   DashboardScreen({super.key});
 
   @override
@@ -32,12 +34,12 @@ class DashboardScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RichText(
-                text: const TextSpan(children: <TextSpan>[
-              TextSpan(
+                text: TextSpan(children: <TextSpan>[
+              const TextSpan(
                   text: 'Hello, \n', style: TextStyle(fontSize: 18, color: Colors.black)),
               TextSpan(
-                  text: 'Andrew',
-                  style: TextStyle(
+                  text: '${userController.user.firstName}',
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 24, color: kPrimaryColor))
             ])),
             SizedBox(
@@ -76,13 +78,16 @@ class DashboardScreen extends StatelessWidget {
                       },
                       child: RefreshIndicator(
                         onRefresh: refreshExpenses,
-                        child: Obx(
-                          () => ListView.builder(
+                        child: Obx(() {
+                          final lastTenExpenses =
+                              expensesController.expenses.reversed.take(10).toList();
+
+                          return ListView.builder(
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),
-                            itemCount: expensesController.expenses.length,
+                            itemCount: lastTenExpenses.length,
                             itemBuilder: (context, int index) {
-                              var expense = expensesController.expenses[index];
+                              var expense = lastTenExpenses[index];
                               var category = categoriesController.categories
                                   .where((c) => c.categoryId == expense.categoryId)
                                   .first;
@@ -96,8 +101,8 @@ class DashboardScreen extends StatelessWidget {
                                 ],
                               );
                             },
-                          ),
-                        ),
+                          );
+                        }),
                       ),
                     ),
                   ),

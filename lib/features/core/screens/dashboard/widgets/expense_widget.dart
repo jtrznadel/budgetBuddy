@@ -1,9 +1,7 @@
 import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/constants/sizes.dart';
-import 'package:budget_buddy/features/core/controllers/categories_controller.dart';
 import 'package:budget_buddy/features/core/models/expense_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class ExpenseWidget extends StatelessWidget {
@@ -13,6 +11,9 @@ class ExpenseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String displayExpenseName = expense.name!.length <= 20
+        ? expense.name!
+        : "${expense.name!.substring(0, 20)}...";
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.only(right: kDefaultPadding),
@@ -40,7 +41,9 @@ class ExpenseWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(expense.name.toString()),
+                  Text(
+                    displayExpenseName,
+                  ),
                   Text(DateFormat.yMMMd().format(expense.date!))
                 ],
               ),
