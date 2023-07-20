@@ -12,13 +12,6 @@ class CategoriesController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    getCategories();
-    getUserCategories();
-    super.onReady();
-  }
-
   var categories = RxList<CategoryModel>();
   var userCategories = RxList<CategoryModel>();
   final storage = const FlutterSecureStorage();
@@ -51,5 +44,12 @@ class CategoriesController extends GetxController {
       // Obsłuż błąd
       printError(info: 'Error adding category: $error');
     }
+    refreshCategories();
+  }
+
+  void refreshCategories() {
+    getCategories();
+    getUserCategories();
+    update(); // Wywołanie update() spowoduje, że GetBuilder, Obx itp. zostaną ponownie zbudowane z aktualnymi danymi
   }
 }

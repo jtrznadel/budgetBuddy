@@ -11,7 +11,7 @@ class UserController extends GetxController {
   }
 
   final storage = const FlutterSecureStorage();
-  var user = UserModel();
+  var user = Rx<UserModel>(UserModel());
 
   getUserId() async {
     var userId = await storage.read(key: 'token');
@@ -21,6 +21,19 @@ class UserController extends GetxController {
   getUser() async {
     var userId = await getUserId();
     var response = await UserRepository().getUser(userId);
-    user = response;
+    user.value = response;
+  }
+
+  updateUserData(UserModel user) async {
+    var userId = await getUserId();
+    user.userId = int.parse(userId);
+    user.role = "User";
+    var response = await UserRepository().updateUserData(user);
+    refreshUser();
+  }
+
+  void refreshUser() {
+    getUser();
+    update(); // Wywołanie update() spowoduje, że GetBuilder, Obx itp. zostaną ponownie zbudowane z aktualnymi danymi
   }
 }

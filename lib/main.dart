@@ -1,8 +1,7 @@
+import 'package:budget_buddy/common_widgets/navigation/main_screen.dart';
 import 'package:budget_buddy/utilities/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'features/authentication/screens/splash_screen/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: TAppTheme.defaultTheme,
       title: 'budgetBuddy',
-      home: const SplashScreen(),
+      home: MainScreen(),
     );
   }
 }

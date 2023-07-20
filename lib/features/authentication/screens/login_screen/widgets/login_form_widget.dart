@@ -1,13 +1,10 @@
 import 'package:budget_buddy/common_widgets/navigation/navigation_profile_widget.dart';
-import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/features/authentication/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 import '../../../../../constants/sizes.dart';
-
-import '../login_screen.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -69,8 +66,7 @@ class _LoginFormState extends State<LoginForm> {
                   suffixIcon: GestureDetector(
                     onTap: () {
                       setState(() {
-                        controller.isPasswordObscured =
-                            !controller.isPasswordObscured;
+                        controller.isPasswordObscured = !controller.isPasswordObscured;
                       });
                     },
                     child: Icon(controller.isPasswordObscured
@@ -99,10 +95,9 @@ class _LoginFormState extends State<LoginForm> {
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
                       var result = await LogInController.instance.loginUser(
-                          controller.email.text.trim(),
-                          controller.password.text.trim());
+                          controller.email.text.trim(), controller.password.text.trim());
                       if (result == true) {
-                        Get.to(() => const NavigationProfile());
+                        Get.to(() => NavigationProfile());
                       }
                     }
                   },

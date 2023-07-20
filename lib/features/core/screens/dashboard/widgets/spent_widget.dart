@@ -1,21 +1,24 @@
 import 'package:budget_buddy/constants/color_palette.dart';
+import 'package:budget_buddy/features/core/controllers/budget_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class SpentWidget extends StatelessWidget {
   const SpentWidget({
     super.key,
-    required this.moneySpent,
-    required this.totalBalance,
   });
-
-  final double moneySpent;
-  final double totalBalance;
 
   @override
   Widget build(BuildContext context) {
+    final budgetController = Get.find<BudgetController>();
     final size = MediaQuery.of(context).size;
-    final spentPercentage = (moneySpent * 100 / totalBalance).round();
+    final budgetValue = budgetController.budget.value;
+    final budgetSpent = budgetValue.budgetSpent ?? 0.0;
+    final budgetLimit = budgetValue.budgetLimit ?? 0.0;
+    final spentPercentage = (budgetSpent * 100 / budgetLimit).round();
+
+    bool isOverBudget = spentPercentage > 100;
 
     return Container(
       decoration: BoxDecoration(
@@ -36,7 +39,9 @@ class SpentWidget extends StatelessWidget {
           style: TextStyle(color: kWhiteColor, fontSize: 16),
         ),
         Text(
-          '$moneySpent zł',
+          isOverBudget
+              ? '+ ${(budgetSpent - budgetLimit).toStringAsFixed(2)}'
+              : '${budgetSpent.toStringAsFixed(2)} zł',
           style: const TextStyle(color: kWhiteColor, fontSize: 36),
         ),
         SizedBox(
@@ -46,19 +51,19 @@ class SpentWidget extends StatelessWidget {
           lineHeight: 16,
           backgroundColor: kSecondaryColor,
           trailing: Text(
-            '$spentPercentage%  ',
+            isOverBudget ? '' : '$spentPercentage%  ',
             style: const TextStyle(color: kWhiteColor),
           ),
-          progressColor: kPrimaryColor,
-          percent: moneySpent / totalBalance,
+          progressColor: isOverBudget ? Colors.red : kPrimaryColor,
+          percent: isOverBudget ? 1.0 : spentPercentage.toDouble() / 100.0,
           barRadius: const Radius.circular(100),
         ),
         SizedBox(
           height: size.height * 0.01,
         ),
-        const Text(
-          'of total balance',
-          style: TextStyle(color: kWhiteColor, fontSize: 16),
+        Text(
+          isOverBudget ? 'Over Budget' : 'of total balance',
+          style: const TextStyle(color: kWhiteColor, fontSize: 16),
         )
       ]),
     );

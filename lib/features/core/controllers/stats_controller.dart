@@ -25,4 +25,10 @@ class StatsController extends GetxController {
     stats.value = response;
     daily = stats.value.daily;
   }
+
+  void refreshStats() {
+    getStats();
+
+    update(); // Wywołanie update() spowoduje, że GetBuilder, Obx itp. zostaną ponownie zbudowane z aktualnymi danymi
+  }
 }

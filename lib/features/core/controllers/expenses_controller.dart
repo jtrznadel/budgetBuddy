@@ -1,3 +1,4 @@
+import 'package:budget_buddy/features/core/controllers/stats_controller.dart';
 import 'package:budget_buddy/features/core/models/expense_model.dart';
 import 'package:budget_buddy/repositories/core_repository/expenses_repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -5,18 +6,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class ExpensesController extends GetxController {
+  final statsController = Get.put(StatsController());
   @override
   void onInit() {
     getExpenses();
     getSelectedExpenses();
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    getExpenses();
-    getSelectedExpenses();
-    super.onReady();
   }
 
   var expenses = RxList<ExpenseModel>();
@@ -83,5 +78,13 @@ class ExpensesController extends GetxController {
       // Obsłuż błąd
       printError(info: 'Error adding exponse: $error');
     }
+    refreshExpenses();
+    statsController.refreshStats();
+  }
+
+  void refreshExpenses() {
+    getExpenses();
+    getSelectedExpenses();
+    update(); // Wywołanie update() spowoduje, że GetBuilder, Obx itp. zostaną ponownie zbudowane z aktualnymi danymi
   }
 }
