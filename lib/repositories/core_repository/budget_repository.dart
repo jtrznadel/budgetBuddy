@@ -1,6 +1,7 @@
 import 'package:budget_buddy/auth/secrets.dart';
 import 'package:budget_buddy/features/core/models/budget_model.dart';
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 
 class BudgetRepository {
   final Dio _dio = Dio();
@@ -26,6 +27,25 @@ class BudgetRepository {
       throw response.data.statusCode;
     } on DioException catch (e) {
       throw e.response!.data;
+    }
+  }
+
+  Future<int> updateBudget(BudgetModel budget) async {
+    try {
+      var response =
+          await _dio.put('$apiAdress/Budgets/${budget.budgetId}', queryParameters: {
+        "userId": '${budget.userId}'
+      }, data: {
+        "budgetLimit": budget.budgetLimit,
+      });
+      return response.data.statusCode;
+    } on DioException catch (e) {
+      printInfo(info: '${e.response}');
+      if (e.response != null) {
+        return e.response!.statusCode ?? 500;
+      } else {
+        return 500;
+      }
     }
   }
 }

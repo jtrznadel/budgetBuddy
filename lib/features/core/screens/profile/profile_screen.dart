@@ -5,6 +5,7 @@ import 'package:budget_buddy/features/core/controllers/categories_controller.dar
 import 'package:budget_buddy/features/core/controllers/user_controller.dart';
 import 'package:budget_buddy/features/core/screens/profile/widgets/edit_categories_widget.dart';
 import 'package:budget_buddy/features/core/screens/profile/widgets/edit_profile_widget.dart';
+import 'package:budget_buddy/features/core/screens/profile/widgets/update_budget_limit_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -68,6 +69,24 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       label: const Text(
                         'Edit Profile',
+                        style: TextStyle(fontSize: 18, color: Colors.black),
+                      ),
+                    ),
+                    TextButton.icon(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) => const UpdateBudgetLimitModal(),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.attach_money_outlined,
+                        size: 24,
+                        color: kPrimaryColor,
+                      ),
+                      label: const Text(
+                        'Update Budget Limit',
                         style: TextStyle(fontSize: 18, color: Colors.black),
                       ),
                     ),

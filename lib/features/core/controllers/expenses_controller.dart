@@ -82,7 +82,17 @@ class ExpensesController extends GetxController {
     statsController.refreshStats();
   }
 
-  void refreshExpenses() {
+  removeExpense(ExpenseModel expense) async {
+    var response = await ExpensesRepository().removeExpense(expense);
+    refreshExpenses();
+  }
+
+  updateExpense(ExpenseModel expense) async {
+    var response = await ExpensesRepository().updateExpense(expense);
+    refreshExpenses();
+  }
+
+  refreshExpenses() {
     getExpenses();
     getSelectedExpenses();
     update(); // Wywołanie update() spowoduje, że GetBuilder, Obx itp. zostaną ponownie zbudowane z aktualnymi danymi

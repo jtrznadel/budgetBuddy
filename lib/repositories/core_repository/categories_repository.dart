@@ -61,4 +61,16 @@ class CategoriesRepository {
       throw e.response!.data;
     }
   }
+
+  Future<CategoryModel?> getCategoryById(int id) async {
+    try {
+      var response = await _dio.get('$apiAdress/Categories/$id');
+
+      var jsonData = response.data;
+      var category = CategoryModel.fromJson(jsonData);
+      return category;
+    } on DioException catch (e) {
+      throw e.response!.data;
+    }
+  }
 }

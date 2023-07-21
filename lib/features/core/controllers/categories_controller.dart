@@ -32,6 +32,11 @@ class CategoriesController extends GetxController {
     userCategories.value = response;
   }
 
+  getCategoryById(int id) async {
+    var response = await CategoriesRepository().getCategoryById(id);
+    return response;
+  }
+
   addCategory(CategoryModel category) async {
     var userId = await getUserId();
     category.userId = int.parse(userId);

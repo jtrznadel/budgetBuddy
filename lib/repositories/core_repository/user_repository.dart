@@ -38,7 +38,7 @@ class UserRepository {
         "lastName": user.lastName,
         "role": user.role,
       });
-      return response.data.statusCode;
+      return response.statusCode!;
     } on DioException catch (e) {
       if (e.response != null) {
         return e.response!.statusCode ?? 500;

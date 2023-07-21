@@ -24,8 +24,14 @@ class BudgetController extends GetxController {
     budget.value = response;
   }
 
-  void refreshBudget() {
+  refreshBudget() {
     getBudget();
     update(); // Wywołanie update() spowoduje, że GetBuilder, Obx itp. zostaną ponownie zbudowane z aktualnymi danymi
+  }
+
+  updateBudget(double limit) async {
+    budget.value.budgetLimit = limit.toInt();
+    var response = await BudgetRepository().updateBudget(budget.value);
+    getBudget();
   }
 }

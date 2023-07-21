@@ -3,7 +3,7 @@ import 'package:budget_buddy/constants/sizes.dart';
 import 'package:budget_buddy/features/core/controllers/categories_controller.dart';
 import 'package:budget_buddy/features/core/controllers/expenses_controller.dart';
 import 'package:budget_buddy/features/core/models/expense_model.dart';
-import 'package:budget_buddy/features/core/screens/dashboard/widgets/expense_widget.dart';
+import 'package:budget_buddy/features/core/screens/expenses/widgets/advanced_expense_widget.dart';
 import 'package:budget_buddy/features/core/screens/expenses/widgets/category_button_widget.dart';
 import 'package:budget_buddy/features/core/screens/expenses/widgets/add_expense_modal.dart';
 import 'package:flutter/material.dart';
@@ -192,7 +192,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                               .first;
                           return Column(
                             children: [
-                              ExpenseWidget(
+                              AdvancedExpenseWidget(
                                   expense: expense, icon: int.parse(category.icon!)),
                               SizedBox(
                                 height: size.height * 0.01,

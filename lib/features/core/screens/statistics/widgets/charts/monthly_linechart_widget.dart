@@ -32,32 +32,53 @@ class MonthlyExpensesLineChartWidget extends StatelessWidget {
       return FlSpot(dayIndex.toDouble(), totalExpenses);
     }).toList();
 
-    return LineChart(
-      LineChartData(
-        minX: 1,
-        minY: 0,
-        maxX: 31, // Zakładamy 31 dni w miesiącu
-        maxY: getMaxTotalExpenses(
-            monthlyData!), // Funkcja pomocnicza do znalezienia maksymalnej wartości wydatków
-        gridData: const FlGridData(show: false),
-        lineBarsData: [
-          LineChartBarData(
-            spots: spots,
-            isCurved: false,
-            color: kPrimaryColor,
-            dotData: const FlDotData(show: false),
-            barWidth: 3,
-            belowBarData: BarAreaData(
-              show: true,
-              color: kPrimaryColor.withOpacity(0.5),
+    return Container(
+      padding: const EdgeInsets.only(right: 20),
+      child: LineChart(
+        LineChartData(
+          minX: 1,
+          minY: 0,
+          maxX: 31, // Set the maxX value to the number of days in the month
+          maxY: getMaxTotalExpenses(
+              monthlyData!), // Funkcja pomocnicza do znalezienia maksymalnej wartości wydatków
+          gridData: const FlGridData(show: false),
+          lineBarsData: [
+            LineChartBarData(
+              spots: spots,
+              isCurved: true,
+              color: kPrimaryColor,
+              dotData: const FlDotData(show: false),
+              barWidth: 3,
+              belowBarData: BarAreaData(
+                show: true,
+                color: kPrimaryColor.withOpacity(0.5),
+              ),
+            ),
+          ],
+          borderData: FlBorderData(
+            show: true,
+            border: const Border(
+              left: BorderSide(color: Color(0xff37434d), width: 2),
+              bottom: BorderSide(color: Color(0xff37434d), width: 2),
+              top: BorderSide(color: Colors.transparent),
+              right: BorderSide(color: Colors.transparent),
             ),
           ),
-        ],
-        borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: kPrimaryColor, width: 1),
+          titlesData: FlTitlesData(
+              bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                      showTitles: true,
+                      interval: 5,
+                      getTitlesWidget: (value, meta) =>
+                          value == 31 ? const Text('') : Text('${value.round()}'))),
+              leftTitles: const AxisTitles(
+                  sideTitles: SideTitles(
+                reservedSize: 50,
+                showTitles: true,
+              )),
+              topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false))),
         ),
-        //titlesData: FlTitlesData(bottomTitles: AxisTitles(axisNameWidget: ))
       ),
     );
   }
