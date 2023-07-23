@@ -5,6 +5,7 @@ import 'package:budget_buddy/features/core/controllers/stats_controller.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/monthly_linechart_widget.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/weekly_linechart_widget.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/yearly_linechart_widget.dart';
+import 'package:budget_buddy/features/core/screens/statistics/widgets/stats_summary_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +22,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    statsController.getStatsInfo();
     return Scaffold(
       backgroundColor: kSecondaryColor,
       body: Container(
@@ -33,7 +35,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 children: [
                   AnimatedButtonBar(
                     radius: 32.0,
-                    padding: const EdgeInsets.all(kDefaultPadding),
+                    padding: const EdgeInsets.only(bottom: kDefaultPadding),
                     backgroundColor: kTertiaryColor,
                     foregroundColor: kPrimaryColor,
                     elevation: 12,
@@ -80,6 +82,44 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   const SizedBox(
                     height: 30,
                   ),
+                  index == 0
+                      ? StatsSummary(
+                          totalExpensesForPeriod:
+                              statsController.statsInfoWeek.value.totalExpensesForPeriod!,
+                          mostSpentCategory: statsController
+                              .statsInfoWeek.value.mostSpentCategory!.category!.name!,
+                          mostFrequentCategory: statsController
+                              .statsInfoWeek.value.mostFrequentCategory!.category!.name!,
+                          leastSpentCategory: statsController
+                              .statsInfoWeek.value.leastSpentCategory!.category!.name!,
+                          categoriesWithNoExpenses: statsController.statsInfoWeek.value
+                              .categoriesWithNoExpenses![0].category!.name!,
+                        )
+                      : index == 1
+                          ? StatsSummary(
+                              totalExpensesForPeriod: statsController
+                                  .statsInfoMonth.value.totalExpensesForPeriod!,
+                              mostSpentCategory: statsController.statsInfoMonth.value
+                                  .mostSpentCategory!.category!.name!,
+                              mostFrequentCategory: statsController.statsInfoMonth.value
+                                  .mostFrequentCategory!.category!.name!,
+                              leastSpentCategory: statsController.statsInfoMonth.value
+                                  .leastSpentCategory!.category!.name!,
+                              categoriesWithNoExpenses: statsController.statsInfoMonth
+                                  .value.categoriesWithNoExpenses![0].category!.name!,
+                            )
+                          : StatsSummary(
+                              totalExpensesForPeriod: statsController
+                                  .statsInfoYear.value.totalExpensesForPeriod!,
+                              mostSpentCategory: statsController
+                                  .statsInfoYear.value.mostSpentCategory!.category!.name!,
+                              mostFrequentCategory: statsController.statsInfoYear.value
+                                  .mostFrequentCategory!.category!.name!,
+                              leastSpentCategory: statsController.statsInfoYear.value
+                                  .leastSpentCategory!.category!.name!,
+                              categoriesWithNoExpenses: statsController.statsInfoYear
+                                  .value.categoriesWithNoExpenses![0].category!.name!,
+                            )
                 ],
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:budget_buddy/features/core/models/stats_info_model.dart';
 import 'package:budget_buddy/features/core/models/stats_model.dart';
 import 'package:budget_buddy/repositories/core_repository/stats_repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -7,10 +8,14 @@ class StatsController extends GetxController {
   @override
   void onInit() {
     getStats();
+    getStatsInfo();
     super.onInit();
   }
 
   var stats = StatsModel().obs;
+  var statsInfoWeek = StatsInfoModel().obs;
+  var statsInfoMonth = StatsInfoModel().obs;
+  var statsInfoYear = StatsInfoModel().obs;
   List<Daily>? daily;
   final storage = const FlutterSecureStorage();
 
@@ -24,6 +29,13 @@ class StatsController extends GetxController {
     var response = await StatsRepository().getStats(userId);
     stats.value = response;
     daily = stats.value.daily;
+  }
+
+  getStatsInfo() async {
+    var userId = await getUserId();
+    statsInfoWeek.value = await StatsRepository().getStatsInfo(userId, 0);
+    statsInfoMonth.value = await StatsRepository().getStatsInfo(userId, 1);
+    statsInfoYear.value = await StatsRepository().getStatsInfo(userId, 2);
   }
 
   void refreshStats() {

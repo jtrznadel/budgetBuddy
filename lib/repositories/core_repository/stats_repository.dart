@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:budget_buddy/features/core/models/stats_info_model.dart';
 import 'package:budget_buddy/features/core/models/stats_model.dart';
 import 'package:dio/dio.dart';
 
@@ -18,6 +19,22 @@ class StatsRepository {
         var jsonData = response.data as Map<String, dynamic>;
 
         var stats = statsModelFromJson(json.encode(jsonData));
+        return stats;
+      }
+      throw response.data.statusCode;
+    } on DioException catch (e) {
+      throw e.response!.data;
+    }
+  }
+
+  Future<StatsInfoModel> getStatsInfo(String userId, int period) async {
+    try {
+      var response = await _dio.get('$apiAdress/Budgets/GetExpenseStatisticsForPeriod',
+          queryParameters: {"userId": userId, "period": period});
+      if (response.statusCode == 200) {
+        var jsonData = response.data as Map<String, dynamic>;
+
+        var stats = statsInfoModelFromJson(json.encode(jsonData));
         return stats;
       }
       throw response.data.statusCode;
