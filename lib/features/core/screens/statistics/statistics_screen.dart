@@ -5,6 +5,7 @@ import 'package:budget_buddy/features/core/controllers/stats_controller.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/monthly_linechart_widget.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/weekly_linechart_widget.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/yearly_linechart_widget.dart';
+import 'package:budget_buddy/features/core/screens/statistics/widgets/forecasted_expenses_widget.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/stats_summary_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,7 +23,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     statsController.getStatsInfo();
+    statsController.getForecastedExpenses();
+
     return Scaffold(
       backgroundColor: kSecondaryColor,
       body: Container(
@@ -30,12 +35,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         child: Column(
           children: [
             Expanded(
-              // Wrap the Column with Expanded
               child: Column(
                 children: [
                   AnimatedButtonBar(
                     radius: 32.0,
-                    padding: const EdgeInsets.only(bottom: kDefaultPadding),
                     backgroundColor: kTertiaryColor,
                     foregroundColor: kPrimaryColor,
                     elevation: 12,
@@ -65,6 +68,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         ),
                       ),
                     ],
+                  ),
+                  ForecastedExpensesWidget(
+                      list: statsController.forecastedExpenses, index: index),
+                  const SizedBox(
+                    height: kDefaultPadding,
                   ),
                   AspectRatio(
                     aspectRatio: 1.5, // Choose an appropriate aspect ratio

@@ -73,4 +73,25 @@ class CategoriesRepository {
       throw e.response!.data;
     }
   }
+
+  Future<int> updateCategory(CategoryModel category) async {
+    try {
+      var response =
+          await _dio.put('$apiAdress/Categories/${category.categoryId}', data: {
+        "categoryId": category.categoryId,
+        "name": category.name,
+        "icon": category.icon,
+        "color": category.color,
+        "userId": category.userId,
+      });
+
+      return response.statusCode!;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        return e.response!.statusCode ?? 500;
+      } else {
+        return 500;
+      }
+    }
+  }
 }

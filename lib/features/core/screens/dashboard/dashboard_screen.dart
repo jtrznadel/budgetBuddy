@@ -25,15 +25,12 @@ class DashboardScreen extends StatelessWidget {
       future: _initializeData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-              child:
-                  CircularProgressIndicator()); // Show loading indicator while waiting for data
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(
-            child: Text('Error: ${snapshot.error}'), // Handle error if any
+            child: Text('Error: ${snapshot.error}'),
           );
         } else {
-          // Data is available, show the dashboard content
           return Container(
             color: kSecondaryColor,
             padding: const EdgeInsets.all(kDefaultPadding).copyWith(top: 0),

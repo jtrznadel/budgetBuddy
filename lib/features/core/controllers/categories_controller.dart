@@ -43,16 +43,19 @@ class CategoriesController extends GetxController {
     category.color = "string";
     try {
       var addedCategory = await CategoriesRepository().addCategory(category);
-      // Dodaj nową kategorię do listy użytkownika
       userCategories.add(addedCategory);
     } catch (error) {
-      // Obsłuż błąd
       printError(info: 'Error adding category: $error');
     }
     refreshCategories();
   }
 
-  void refreshCategories() {
+  updateCategory(CategoryModel category) async {
+    var response = await CategoriesRepository().updateCategory(category);
+    refreshCategories();
+  }
+
+  refreshCategories() {
     getCategories();
     getUserCategories();
     update(); // Wywołanie update() spowoduje, że GetBuilder, Obx itp. zostaną ponownie zbudowane z aktualnymi danymi

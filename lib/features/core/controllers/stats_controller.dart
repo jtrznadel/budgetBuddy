@@ -9,6 +9,7 @@ class StatsController extends GetxController {
   void onInit() {
     getStats();
     getStatsInfo();
+    getForecastedExpenses();
     super.onInit();
   }
 
@@ -16,6 +17,7 @@ class StatsController extends GetxController {
   var statsInfoWeek = StatsInfoModel().obs;
   var statsInfoMonth = StatsInfoModel().obs;
   var statsInfoYear = StatsInfoModel().obs;
+  var forecastedExpenses = [].obs;
   List<Daily>? daily;
   final storage = const FlutterSecureStorage();
 
@@ -36,6 +38,12 @@ class StatsController extends GetxController {
     statsInfoWeek.value = await StatsRepository().getStatsInfo(userId, 0);
     statsInfoMonth.value = await StatsRepository().getStatsInfo(userId, 1);
     statsInfoYear.value = await StatsRepository().getStatsInfo(userId, 2);
+  }
+
+  getForecastedExpenses() async {
+    var userId = await getUserId();
+    var list = await StatsRepository().getForecast(userId);
+    forecastedExpenses.value = list;
   }
 
   void refreshStats() {

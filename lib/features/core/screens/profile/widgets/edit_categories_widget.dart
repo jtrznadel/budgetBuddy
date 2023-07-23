@@ -2,14 +2,17 @@ import 'package:budget_buddy/constants/color_palette.dart';
 import 'package:budget_buddy/constants/sizes.dart';
 import 'package:budget_buddy/features/core/models/category_model.dart';
 import 'package:budget_buddy/features/core/screens/profile/widgets/add_category_modal.dart';
+import 'package:budget_buddy/features/core/screens/profile/widgets/edit_category_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class EditCategoriesModal extends StatelessWidget {
   final List<CategoryModel> userCategories;
 
   const EditCategoriesModal({required this.userCategories, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size.height;
@@ -42,52 +45,63 @@ class EditCategoriesModal extends StatelessWidget {
                     ],
                   ),
                 ))
-              : Expanded(
-                  child: ListView.builder(
-                    itemCount: userCategories.length,
-                    itemBuilder: (context, index) {
-                      final category = userCategories[index];
-                      return Slidable(
-                        key: Key(category.name!),
-                        startActionPane:
-                            ActionPane(motion: const ScrollMotion(), children: [
-                          SlidableAction(
-                              onPressed: (context) {},
-                              backgroundColor: const Color(0xFFFE4A49),
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.all(0),
-                              icon: Icons.delete,
-                              label: 'Delete',
-                              borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(25),
-                                  bottomRight: Radius.circular(25))),
-                        ]),
-                        endActionPane: ActionPane(
-                          motion: const ScrollMotion(),
-                          children: [
-                            SlidableAction(
-                                // An action can be bigger than the others.
-                                flex: 2,
-                                onPressed: (context) {},
+              : Obx(() {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: userCategories.length,
+                      itemBuilder: (context, index) {
+                        final category = userCategories[index];
+                        return Slidable(
+                          key: Key(category.name!),
+                          endActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            children: [
+                              SlidableAction(
+                                flex: 1,
+                                onPressed: (context) {
+                                  // Show the edit modal when "Edit" action is pressed
+                                  showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return EditCategoryModal(category: category);
+                                    },
+                                  );
+                                },
                                 backgroundColor: Colors.blue,
                                 foregroundColor: Colors.white,
                                 icon: Icons.edit,
                                 label: 'Edit',
                                 padding: const EdgeInsets.all(0),
                                 borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(25),
-                                    bottomLeft: Radius.circular(25))),
-                          ],
-                        ),
-                        child: ListTile(
-                          title: Text(category.name!),
-                          leading: Icon(IconData(int.parse(category.icon!),
-                              fontFamily: 'MaterialIcons')),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                                  topLeft: Radius.circular(25),
+                                  bottomLeft: Radius.circular(25),
+                                ),
+                              ),
+                            ],
+                          ),
+                          child: ListTile(
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  IconData(int.parse(category.icon!),
+                                      fontFamily: 'MaterialIcons'),
+                                  size: 24,
+                                ),
+                                const SizedBox(width: 10),
+                                Text(
+                                  category.name!,
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }),
           Align(
             alignment: Alignment.bottomCenter,
             child: FloatingActionButton.extended(
