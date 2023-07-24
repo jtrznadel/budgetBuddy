@@ -1,22 +1,51 @@
 import 'package:budget_buddy/constants/color_palette.dart';
+import 'package:budget_buddy/features/core/models/forecast_model.dart';
 import 'package:flutter/material.dart';
 
 class ForecastedExpensesWidget extends StatelessWidget {
-  final List<dynamic> list;
+  final List<ForecastModel> list;
   final int index;
+  final List<double> period;
   const ForecastedExpensesWidget({
     super.key,
     required this.list,
     required this.index,
+    required this.period,
   });
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    double average = list[index].average ?? 0.0;
+    double totalOfPeriod = period[index] ?? 0.0;
+
+    Icon iconData;
+    if (average < totalOfPeriod) {
+      iconData = const Icon(
+        Icons.keyboard_double_arrow_down_rounded,
+        color: Colors.green,
+        size: 24,
+      );
+    } else {
+      iconData = const Icon(
+        Icons.keyboard_double_arrow_up_rounded,
+        color: Colors.red,
+        size: 24,
+      );
+    }
+
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const SizedBox(
-          height: 10,
+        SizedBox(
+          height: size.height * 0.01,
+        ),
+        const Text(
+          'Upcoming expenses forecast',
+          style: TextStyle(fontSize: 14),
+        ),
+        SizedBox(
+          height: size.height * 0.01,
         ),
         Container(
           padding: const EdgeInsets.all(10),
@@ -33,20 +62,17 @@ class ForecastedExpensesWidget extends StatelessWidget {
           width: double.infinity,
           height: size.height * 0.05,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Upcoming expenses forecast',
-                style: TextStyle(fontSize: 14),
-              ),
               Text(
                 index == 0
-                    ? '${list[0].toStringAsFixed(2)} zł'
+                    ? '${list[0].lowerBound!.toStringAsFixed(2)} - ${list[0].upperBound!.toStringAsFixed(2)}zł'
                     : index == 1
-                        ? '${list[1].toStringAsFixed(2)} zł'
-                        : '${list[2].toStringAsFixed(2)} zł',
+                        ? '${list[1].lowerBound!.toStringAsFixed(2)} - ${list[1].upperBound!.toStringAsFixed(2)}zł'
+                        : '${list[2].lowerBound!.toStringAsFixed(2)} - ${list[2].upperBound!.toStringAsFixed(2)}zł',
                 style: const TextStyle(fontSize: 18, color: kWhiteColor),
               ),
+              iconData
             ],
           ),
         ),

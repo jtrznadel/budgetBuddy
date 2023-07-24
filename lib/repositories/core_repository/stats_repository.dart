@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:budget_buddy/features/core/models/forecast_model.dart';
 import 'package:budget_buddy/features/core/models/stats_info_model.dart';
 import 'package:budget_buddy/features/core/models/stats_model.dart';
 import 'package:dio/dio.dart';
@@ -44,18 +45,26 @@ class StatsRepository {
     }
   }
 
-  Future<List<dynamic>> getForecast(String userId) async {
+  Future<List<ForecastModel>> getForecast(String userId) async {
     try {
-      var list = [];
-      var responseNextWeek = await _dio.get('$apiAdress/Budgets/GetGetNextWeekForecast',
-          queryParameters: {"userId": userId});
-      list.add(responseNextWeek.data);
+      List<ForecastModel> list = [];
+      var responseNextWeek =
+          await _dio.get('$apiAdress/Budgets/GetNextWeekForecast', //poprawić
+              queryParameters: {"userId": userId});
+      var jsonDataWeek = responseNextWeek.data as Map<String, dynamic>;
+
+      var forecastWeek = forecastModelFromJson(json.encode(jsonDataWeek));
+      list.add(forecastWeek);
       var responseNextMonth = await _dio.get('$apiAdress/Budgets/GetNextMonthForecast',
           queryParameters: {"userId": userId});
-      list.add(responseNextMonth.data);
+      var jsonDataMonth = responseNextMonth.data as Map<String, dynamic>;
+      var forecastMonth = forecastModelFromJson(json.encode(jsonDataMonth));
+      list.add(forecastMonth);
       var responseNextYear = await _dio.get('$apiAdress/Budgets/GetNextYearForecast',
           queryParameters: {"userId": userId});
-      list.add(responseNextYear.data);
+      var jsonDataYear = responseNextYear.data as Map<String, dynamic>;
+      var forecastYear = forecastModelFromJson(json.encode(jsonDataYear));
+      list.add(forecastYear);
       return list;
     } on DioException catch (e) {
       printInfo(info: '${e.response}');

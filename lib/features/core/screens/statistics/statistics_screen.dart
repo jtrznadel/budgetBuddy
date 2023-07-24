@@ -1,6 +1,5 @@
 import 'package:animated_button_bar/animated_button_bar.dart';
 import 'package:budget_buddy/constants/color_palette.dart';
-import 'package:budget_buddy/constants/sizes.dart';
 import 'package:budget_buddy/features/core/controllers/stats_controller.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/monthly_linechart_widget.dart';
 import 'package:budget_buddy/features/core/screens/statistics/widgets/charts/weekly_linechart_widget.dart';
@@ -31,7 +30,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     return Scaffold(
       backgroundColor: kSecondaryColor,
       body: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10).copyWith(top: 0),
         child: Column(
           children: [
             Expanded(
@@ -70,12 +69,19 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     ],
                   ),
                   ForecastedExpensesWidget(
-                      list: statsController.forecastedExpenses, index: index),
-                  const SizedBox(
-                    height: kDefaultPadding,
+                    list: statsController.forecastedExpenses,
+                    index: index,
+                    period: [
+                      statsController.statsInfoWeek.value.totalExpensesForPeriod!,
+                      statsController.statsInfoMonth.value.totalExpensesForPeriod!,
+                      statsController.statsInfoYear.value.totalExpensesForPeriod!
+                    ],
+                  ),
+                  SizedBox(
+                    height: size.height * 0.02,
                   ),
                   AspectRatio(
-                    aspectRatio: 1.5, // Choose an appropriate aspect ratio
+                    aspectRatio: 1.3, // Choose an appropriate aspect ratio
                     child: (index == 0)
                         ? WeeklyExpensesLineChartWidget(
                             dailyData: statsController.stats.value.daily)
@@ -87,8 +93,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                 monthlyData: statsController.stats.value.monthly,
                               ),
                   ),
-                  const SizedBox(
-                    height: 30,
+                  SizedBox(
+                    height: size.height * 0.01,
                   ),
                   index == 0
                       ? StatsSummary(

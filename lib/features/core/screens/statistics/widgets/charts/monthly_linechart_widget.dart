@@ -45,7 +45,7 @@ class MonthlyExpensesLineChartWidget extends StatelessWidget {
           lineBarsData: [
             LineChartBarData(
               spots: spots,
-              isCurved: true,
+              isCurved: false,
               color: kPrimaryColor,
               dotData: const FlDotData(show: false),
               barWidth: 3,

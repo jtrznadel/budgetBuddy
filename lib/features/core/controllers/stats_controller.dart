@@ -1,3 +1,4 @@
+import 'package:budget_buddy/features/core/models/forecast_model.dart';
 import 'package:budget_buddy/features/core/models/stats_info_model.dart';
 import 'package:budget_buddy/features/core/models/stats_model.dart';
 import 'package:budget_buddy/repositories/core_repository/stats_repository.dart';
@@ -17,7 +18,7 @@ class StatsController extends GetxController {
   var statsInfoWeek = StatsInfoModel().obs;
   var statsInfoMonth = StatsInfoModel().obs;
   var statsInfoYear = StatsInfoModel().obs;
-  var forecastedExpenses = [].obs;
+  List<ForecastModel> forecastedExpenses = RxList();
   List<Daily>? daily;
   final storage = const FlutterSecureStorage();
 
@@ -43,7 +44,7 @@ class StatsController extends GetxController {
   getForecastedExpenses() async {
     var userId = await getUserId();
     var list = await StatsRepository().getForecast(userId);
-    forecastedExpenses.value = list;
+    forecastedExpenses = list;
   }
 
   void refreshStats() {

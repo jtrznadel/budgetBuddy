@@ -20,8 +20,9 @@ class StatsSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.all(kDefaultPadding).copyWith(top: 5),
+      padding: const EdgeInsets.all(kDefaultPadding - 10).copyWith(top: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -37,8 +38,8 @@ class StatsSummary extends StatelessWidget {
                     text: " .stats",
                     style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold))
               ])),
-          const SizedBox(
-            height: kDefaultPadding,
+          SizedBox(
+            height: size.height * 0.02,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
