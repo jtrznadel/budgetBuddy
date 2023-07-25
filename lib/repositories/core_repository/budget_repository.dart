@@ -26,6 +26,7 @@ class BudgetRepository {
       }
       throw response.data.statusCode;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       throw e.response!.data;
     }
   }
@@ -40,6 +41,7 @@ class BudgetRepository {
       });
       return response.data.statusCode;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       printInfo(info: '${e.response}');
       if (e.response != null) {
         return e.response!.statusCode ?? 500;

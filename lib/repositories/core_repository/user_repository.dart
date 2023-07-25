@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 
 import '../../auth/secrets.dart';
 import '../../features/core/models/user_model.dart';
@@ -8,23 +9,18 @@ class UserRepository {
 
   Future<UserModel> getUser(String userId) async {
     try {
-      var response = await _dio.get('$apiAdress/Users', queryParameters: {
+      var response = await _dio.get('$apiAdress/Users/$userId', queryParameters: {
         "id": userId,
       });
       if (response.statusCode == 200) {
-        var jsonData = response.data as List<dynamic>;
+        var jsonData = response.data as Map<String, dynamic>;
 
-        if (jsonData.isNotEmpty) {
-          // Assuming the first element in the list is the user object
-          var user = UserModel.fromJson(jsonData[0]);
-          return user;
-        } else {
-          // Handle the case when the list is empty (user not found)
-          throw Exception("User not found");
-        }
+        var user = UserModel.fromJson(jsonData);
+        return user;
       }
       throw response.data.statusCode;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       throw e.response!.data;
     }
   }
@@ -40,6 +36,7 @@ class UserRepository {
       });
       return response.statusCode!;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       if (e.response != null) {
         return e.response!.statusCode ?? 500;
       } else {

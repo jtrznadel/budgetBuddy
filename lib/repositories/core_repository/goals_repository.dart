@@ -25,6 +25,7 @@ class GoalsRepository {
       }
       throw response.data.statusCode;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       throw e.response!.data;
     }
   }
@@ -45,6 +46,7 @@ class GoalsRepository {
 
       return response.statusCode!;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       printError(info: '$e');
       if (e.response != null) {
         return e.response!.statusCode ?? 500;
@@ -75,8 +77,24 @@ class GoalsRepository {
       }
       throw response.data.statusCode;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       printError(info: '$e');
       throw e.response!.data;
+    }
+  }
+
+  Future<int> removeGoal(GoalModel goal) async {
+    try {
+      var response = await _dio.delete('$apiAdress/Goals/${goal.id}');
+      return response.statusCode!;
+    } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
+      printInfo(info: '${e.response}');
+      if (e.response != null) {
+        return e.response!.statusCode ?? 500;
+      } else {
+        return 500;
+      }
     }
   }
 }

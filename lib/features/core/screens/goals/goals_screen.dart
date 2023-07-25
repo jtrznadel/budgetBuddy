@@ -43,15 +43,18 @@ class GoalsScreen extends StatelessWidget {
                 );
               }),
             ),
-            ElevatedButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) => const AddGoalModal(),
-                );
-              },
-              child: const Text('Add Expense'),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) => const AddGoalModal(),
+                  );
+                },
+                child: const Text('Add Goal'),
+              ),
             ),
           ],
         ),

@@ -1,6 +1,5 @@
 import 'package:budget_buddy/constants/sizes.dart';
 import 'package:budget_buddy/features/authentication/controllers/signup_controller.dart';
-import 'package:budget_buddy/features/authentication/screens/login_screen/login_screen.dart';
 import 'package:budget_buddy/models/authentication_models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,7 +36,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
               },
               decoration: const InputDecoration(
                 label: Text("Email"),
-                prefixIcon: Icon(Icons.person_outline_outlined),
+                prefixIcon: Icon(Icons.email_outlined),
               ),
             ),
             const SizedBox(height: kDefaultPadding - 20),
@@ -52,7 +51,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
               },
               decoration: const InputDecoration(
                 label: Text("First Name"),
-                prefixIcon: Icon(Icons.email_outlined),
+                prefixIcon: Icon(Icons.badge_outlined),
               ),
             ),
             const SizedBox(height: kDefaultPadding - 20),
@@ -67,7 +66,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
               },
               decoration: const InputDecoration(
                 label: Text("Last Name"),
-                prefixIcon: Icon(Icons.phone),
+                prefixIcon: Icon(Icons.badge_outlined),
               ),
             ),
             const SizedBox(height: kDefaultPadding - 20),
@@ -140,7 +139,6 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                       password: controller.password.text.trim(),
                       confirmPassword: controller.confirmPassword.text.trim(),
                     ));
-                    Get.to(() => const LoginScreen());
                   }
                 },
                 child: const Text("Sign Up"),

@@ -39,6 +39,20 @@ class GoalController extends GetxController {
   }
 
   addAmountToGoal(GoalModel goal) async {
+    var userId = await getUserId();
+    goal.userId = int.parse(userId);
+    var response = await GoalsRepository().updateGoal(goal);
+    refreshGoals();
+  }
+
+  removeGoal(GoalModel goal) async {
+    var response = await GoalsRepository().removeGoal(goal);
+    refreshGoals();
+  }
+
+  updateGoal(GoalModel goal) async {
+    var userId = await getUserId();
+    goal.userId = int.parse(userId);
     var response = await GoalsRepository().updateGoal(goal);
     refreshGoals();
   }

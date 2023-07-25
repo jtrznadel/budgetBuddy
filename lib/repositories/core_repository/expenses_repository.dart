@@ -30,6 +30,7 @@ class ExpensesRepository {
       }
       throw response.data.statusCode;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       throw e.response!.data;
     }
   }
@@ -56,6 +57,7 @@ class ExpensesRepository {
       }
       throw response.data.statusCode;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       throw e.response!.data;
     }
   }
@@ -65,6 +67,7 @@ class ExpensesRepository {
       var response = await _dio.delete('$apiAdress/Expenses/${expense.expenseId}');
       return response.statusCode!;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       printInfo(info: '${e.response}');
       if (e.response != null) {
         return e.response!.statusCode ?? 500;
@@ -82,13 +85,14 @@ class ExpensesRepository {
         "name": expense.name,
         "description": expense.description,
         "price": expense.price,
-        "date": formattedDate, // Format the date before sending it to the API
+        "date": formattedDate,
         "categoryId": expense.categoryId,
         "userId": expense.userId
       });
 
       return response.statusCode!;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       if (e.response != null) {
         return e.response!.statusCode ?? 500;
       } else {

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:budget_buddy/features/core/models/category_model.dart';
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 
 import '../../auth/secrets.dart';
 
@@ -18,6 +19,7 @@ class CategoriesRepository {
       }
       throw response.data.statusCode;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       throw e.response!.data;
     }
   }
@@ -36,6 +38,7 @@ class CategoriesRepository {
       }
       throw response.data.statusCode;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       throw e.response!.data;
     }
   }
@@ -58,6 +61,7 @@ class CategoriesRepository {
       }
       throw response.data.statusCode;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       throw e.response!.data;
     }
   }
@@ -70,6 +74,7 @@ class CategoriesRepository {
       var category = CategoryModel.fromJson(jsonData);
       return category;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       throw e.response!.data;
     }
   }
@@ -87,6 +92,7 @@ class CategoriesRepository {
 
       return response.statusCode!;
     } on DioException catch (e) {
+      Get.snackbar("Error", "Something went wrong!");
       if (e.response != null) {
         return e.response!.statusCode ?? 500;
       } else {
